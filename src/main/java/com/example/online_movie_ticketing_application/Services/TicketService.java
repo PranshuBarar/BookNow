@@ -5,6 +5,7 @@ import com.example.online_movie_ticketing_application.Entities.ShowSeatEntity;
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.Entities.UserEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.TicketEntryDto;
+import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,8 +64,8 @@ public class TicketService {
 
         TicketEntity ticketEntity = TicketEntity.builder().ticketId(ticketId).movieName(movieName)
                                     .showEntity(showEntity).theaterName(theaterName).bookedSeats(bookedSeats)
-                                    .showDate(localDate).showTime(localTime).userEntity(userEntity).totalAmount(totalAmount)
-                                    .build();
+                                    .showDate(localDate).showTime(localTime).userEntity(userEntity)
+                                    .totalAmount(totalAmount).build();
 
         userEntity.getTicketEntityList().add(ticketEntity);
         userRepository.save(userEntity);
@@ -72,7 +74,7 @@ public class TicketService {
         entityManager.flush();
         showEntity.getTicketEntityList().add(ticketEntity);
         showRepository.save(showEntity);
-        return bookedSeats;
+        return "Tickets Booked : " + bookedSeats;
     }
 
     private Pair<String,Integer> bookTheSeats(List<String> requestedSeats,
@@ -104,5 +106,41 @@ public class TicketService {
             }
         }
         return Pair.of(bookedSeats.toString(),totalAmount);
+    }
+
+    public String cancelTicket(int ticketId){
+        TicketEntity ticketEntity = ticketRepository.findById(ticketId).get();
+
+        String bookedSeats = ticketEntity.getBookedSeats();
+        String[] bookedSeatsArr = bookedSeats.split(", ");
+
+        ShowEntity showEntity = ticketEntity.getShowEntity();
+        List<ShowSeatEntity> showSeatEntityList = showEntity.getShowSeatEntityList();
+
+        cancelBookingOfSeats(bookedSeatsArr,showSeatEntityList);
+
+        bookedSeats = Arrays.toString(bookedSeatsArr);
+        ticketEntity.setBookedSeats(bookedSeats);
+
+        ticketEntity.setStatus(TicketStatus.CANCELLED.name());
+        ticketEntity.setBookedSeats(null);
+
+        showRepository.save(showEntity);
+
+        return "Ticket is cancelled";
+
+    }
+
+    private void cancelBookingOfSeats(String[] bookedSeatsArr, List<ShowSeatEntity> showSeatEntityList) {
+        for(ShowSeatEntity showSeatEntity : showSeatEntityList){
+            String seatNo = showSeatEntity.getSeatNo();
+            if(Arrays.asList(bookedSeatsArr).contains(seatNo)){
+                showSeatEntity.setBooked(false);
+            }
+        }
+    }
+
+    public TicketEntity getDetails(int ticketId){
+        return ticketRepository.findById(ticketId).get();
     }
 }

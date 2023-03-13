@@ -22,13 +22,22 @@ public class ShowController {
     /*
         ////Copy-paste the following in postman
         {
-        "showDate" : "2023-02-19",
-        "showTime": "16:00:00.000",
-        "showType" : "_2D",
-        "movieId" : 1,
-        "theaterId" : 1,
-        "classicSeatPrice" : 25,
-        "premiumSeatPrice" : 35
+            "showDate" : "2023-02-19",
+            "showTime": "16:00:00.000",
+            "showType" : "_2D",
+            "movieId" : 1,
+            "theaterId" : 1,
+            "classicSeatPrice" : 25,
+            "premiumSeatPrice" : 35
         }
     */
+
+    @DeleteMapping("/remove") //http://localhost:8080/show/remove?showId=<id here>
+    public ResponseEntity<String> removeShow(@RequestParam("showId") int showId){
+        String response = showService.removeShow(showId);
+        if(response.equals("CANCELED")){
+            //Email will be sent to the users that show has been cancelled, you will be refunded your money back
+        }
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
 }

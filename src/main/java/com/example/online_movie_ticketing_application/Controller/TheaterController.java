@@ -32,4 +32,10 @@ public class TheaterController {
             "premiumSeatsCount" : 7
         }
     */
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<String> removeTheater(@RequestParam("theaterId") int theaterId){
+        String response = theaterService.removeTheater(theaterId);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
 }

@@ -12,6 +12,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,6 +115,16 @@ public class ShowService {
             showSeatEntityList.add(showSeatEntity);
         }
         return showSeatEntityList;
+    }
+
+    public String removeShow(int showId){
+        ShowEntity showEntity = showRepository.findById(showId).get();
+        LocalTime localTime = LocalTime.now();
+        if(showEntity.getShowTime().compareTo(LocalTime.now())>0){
+            return "CANCELED";
+        }
+        showRepository.deleteById(showId);
+        return "REMOVED";
     }
 
 }

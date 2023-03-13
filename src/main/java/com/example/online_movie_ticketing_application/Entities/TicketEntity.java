@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -34,6 +35,9 @@ public class TicketEntity {
     private String theaterName; //to be printed
 
     private String bookedSeats;
+
+    @Enumerated(value = EnumType.STRING)
+    private String status;
 
     @ManyToOne
     @JoinColumn
