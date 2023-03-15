@@ -46,12 +46,6 @@ public class MovieController {
         }
     */
 
-
-    /*This API will be called in the case if movie gets banned by the Govt. In that particular case
-    * movie will be removed from the movie database, it means all the shows of this movie will be cancelled and
-    * subsequently all the tickets will get cancelled and amount will be refunded to the user.
-    * */
-
     @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieId=<id here>
     public ResponseEntity<String> removeMovie(@RequestParam("movieId") int movieId){
         String response = movieService.removeMovie(movieId);
@@ -66,8 +60,8 @@ public class MovieController {
     }
 
     @GetMapping("/movie-with-max-shows") //http://localhost:8080/movies/movie-with-max-shows
-    public ResponseEntity<Pair<Integer,AtomicReference<String>>> movieWithMaxShows(){
-        Pair<Integer, AtomicReference<String>> pair = movieService.movieWithMaxShows();
+    public ResponseEntity<Pair<Integer,String>> movieWithMaxShows(){
+        Pair<Integer, String> pair = movieService.movieWithMaxShows();
         return new ResponseEntity<>(pair,HttpStatus.FOUND);
     }
 
@@ -83,7 +77,7 @@ public class MovieController {
         return new ResponseEntity<>(moviesAndTheirCollections,HttpStatus.FOUND);
     }
 
-    @GetMapping("/collection/{movie}")
+    @GetMapping("/collection/{movie}") //http://localhost:8080/movies/collection/<movie>
     public ResponseEntity<Integer> totalCollectionOfMovie(@PathVariable("movie") String movieName){
         int collection = movieService.totalCollectionOfMovie(movieName);
         return new ResponseEntity<>(collection,HttpStatus.FOUND);

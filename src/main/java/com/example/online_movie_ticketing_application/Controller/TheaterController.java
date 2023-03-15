@@ -41,7 +41,7 @@ public class TheaterController {
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/theaters-with-unique-locations")
+    @GetMapping("/theaters-with-unique-locations") //http://localhost:8080/theater/theaters-with-unique-locations
     public ResponseEntity<Map<String,String>> theatersWithUniqueLocations(){
         Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
         return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);

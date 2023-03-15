@@ -2,6 +2,7 @@ package com.example.online_movie_ticketing_application.Controller;
 
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.UserEntryDto;
+import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import com.example.online_movie_ticketing_application.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,14 +46,14 @@ public class UserController {
     }
 
     @GetMapping("/all-tickets") //http://localhost:8080/users/all-tickets?userId=<id here>
-    public ResponseEntity<List<TicketEntity>> allTickets(@RequestParam("userId") int userId){
+    public ResponseEntity<List<TicketDetailsResponseDto>> allTickets(@RequestParam("userId") int userId){
         //This will return all tickets booked by user till now...and this includes even cancelled tickets also
-        List<TicketEntity> ticketEntityList = userService.allTickets(userId);
-        return new ResponseEntity<>(ticketEntityList,HttpStatus.FOUND);
+        List<TicketDetailsResponseDto> ticketDetailsResponseDtoList = userService.allTickets(userId);
+        return new ResponseEntity<>(ticketDetailsResponseDtoList,HttpStatus.FOUND);
     }
 
-    @PutMapping("/update-address/{userId}") //http://localhost:8080/users/update-address/<userId>?address=<new ad. here>
-    public ResponseEntity<String> updateUserAddress(@PathVariable int userId, @RequestParam("address") String address){
+    @PutMapping("/update-address/{userId}") //http://localhost:8080/users/update-address/<userId>
+    public ResponseEntity<String> updateUserAddress(@PathVariable int userId, @RequestBody String address){
         String response = userService.updateUserAddress(userId,address);
         return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }

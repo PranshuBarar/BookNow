@@ -2,6 +2,7 @@ package com.example.online_movie_ticketing_application.Controller;
 
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.TicketEntryDto;
+import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import com.example.online_movie_ticketing_application.Services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,9 @@ public class TicketController {
     */
 
     @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?tickedId=<id here>
-    public ResponseEntity<TicketEntity> getDetails(@RequestParam("ticketId") int ticketId){
-        TicketEntity ticketEntity = ticketService.getDetails(ticketId);
-        return new ResponseEntity<>(ticketEntity,HttpStatus.FOUND);
+    public ResponseEntity<TicketDetailsResponseDto> getDetails(@RequestParam("ticketId") int ticketId){
+        TicketDetailsResponseDto ticketDetailsResponseDto = ticketService.getDetails(ticketId);
+        return new ResponseEntity<>(ticketDetailsResponseDto,HttpStatus.FOUND);
     }
 
     @DeleteMapping("/cancel_ticket") //http://localhost:8080/tickets/cancel_ticket?ticketId=<id here>

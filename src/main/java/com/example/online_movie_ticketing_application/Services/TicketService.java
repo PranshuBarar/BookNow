@@ -1,5 +1,6 @@
 package com.example.online_movie_ticketing_application.Services;
 
+import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
 import com.example.online_movie_ticketing_application.Entities.ShowEntity;
 import com.example.online_movie_ticketing_application.Entities.ShowSeatEntity;
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
@@ -9,6 +10,7 @@ import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
+import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,14 +67,12 @@ public class TicketService {
         TicketEntity ticketEntity = TicketEntity.builder().ticketId(ticketId).movieName(movieName)
                                     .showEntity(showEntity).theaterName(theaterName).bookedSeats(bookedSeats)
                                     .showDate(localDate).showTime(localTime).userEntity(userEntity)
-                                    .totalAmount(totalAmount).build();
+                                    .totalAmount(totalAmount).status(TicketStatus.CONFIRMED).build();
 
-        userEntity.getTicketEntityList().add(ticketEntity);
+        TicketEntity updatedTicketEntity = ticketRepository.save(ticketEntity);
+        userEntity.getTicketEntityList().add(updatedTicketEntity);
         userRepository.save(userEntity);
-
-        entityManager.detach(showEntity);
-        entityManager.flush();
-        showEntity.getTicketEntityList().add(ticketEntity);
+        showEntity.getTicketEntityList().add(updatedTicketEntity);
         showRepository.save(showEntity);
         return "Tickets Booked : " + bookedSeats;
     }
@@ -140,7 +140,8 @@ public class TicketService {
         }
     }
 
-    public TicketEntity getDetails(int ticketId){
-        return ticketRepository.findById(ticketId).get();
+    public TicketDetailsResponseDto getDetails(int ticketId){
+        TicketEntity ticketEntity = ticketRepository.findById(ticketId).get();
+        return TicketConvertor.convertEntityToDto(ticketEntity);
     }
 }

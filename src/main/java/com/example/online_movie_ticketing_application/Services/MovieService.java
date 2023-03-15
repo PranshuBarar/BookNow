@@ -84,22 +84,21 @@ public class MovieService {
         return movieAndItsCollectionMap;
     }
 
-    public Pair<Integer, AtomicReference<String>> movieWithMaxShows() {
+    public Pair<Integer,String> movieWithMaxShows() {
 
-        AtomicReference<String> movieName = null;
-        final int[] numberOfShows = {0};
+        String movieName = "";
+        int numberOfShows = 0;
         List<MovieEntity> movieEntityList = movieRepository.findAll();
-        Stream<MovieEntity> movieEntityStream = movieEntityList.stream();
-        movieEntityStream.forEach(entity -> {
-            int currentNumberOfShows = entity.getShowEntityList().size();
-            if(currentNumberOfShows>numberOfShows[0]){
-                numberOfShows[0] = currentNumberOfShows;
-                movieName.set(entity.getMovieName());
+        for(MovieEntity movieEntity : movieEntityList){
+            int currentNumberOfShows = movieEntity.getShowEntityList().size();
+            if(currentNumberOfShows>numberOfShows){
+                numberOfShows = currentNumberOfShows;
+                movieName = movieEntity.getMovieName();
             }
-        });
+        }
 
-        Pair<Integer,AtomicReference<String>> pairOfMovieAndShows = Pair.of(numberOfShows[0],movieName);
-        return pairOfMovieAndShows;
+        assert false;
+        return Pair.of(numberOfShows,movieName);
     }
 
     public List<Pair<LocalDate, LocalTime>> getShowTime(int movieId, int theaterId) {

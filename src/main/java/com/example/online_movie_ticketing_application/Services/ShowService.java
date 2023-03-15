@@ -7,8 +7,6 @@ import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +25,6 @@ public class ShowService {
     @Autowired
     ShowRepository showRepository;
 
-    @PersistenceContext
-    EntityManager entityManager;
 
     public String addShow(ShowEntryDto showEntryDto){
 
@@ -63,15 +59,14 @@ public class ShowService {
         //fetching the showEntity list of the given
         //movieEntity and then after adding this showEntity also to the same list and saving the parent afterward
 
+        ShowEntity updatedShowEntity = showRepository.save(showEntity);
 
         List<ShowEntity> showEntityListFromMovie = movieEntity.getShowEntityList();
-        showEntityListFromMovie.add(showEntity);
+        showEntityListFromMovie.add(updatedShowEntity);
         movieRepository.save(movieEntity);
 
         List<ShowEntity> showEntityListFromTheater = theaterEntity.getShowEntityList();
-        showEntityListFromTheater.add(showEntity);
-        entityManager.detach(showEntity);
-        entityManager.flush();
+        showEntityListFromTheater.add(updatedShowEntity);
         theaterRepository.save(theaterEntity);
         return "The show has been added successfully";
 

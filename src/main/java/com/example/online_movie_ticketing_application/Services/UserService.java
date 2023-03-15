@@ -1,19 +1,21 @@
 package com.example.online_movie_ticketing_application.Services;
 
 
+import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
 import com.example.online_movie_ticketing_application.Convertors.UserConvertor;
 import com.example.online_movie_ticketing_application.Entities.ShowEntity;
 import com.example.online_movie_ticketing_application.Entities.ShowSeatEntity;
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.Entities.UserEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.UserEntryDto;
-import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
+import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,9 +60,15 @@ public class UserService {
         return "User deleted successfully";
     }
 
-    public List<TicketEntity> allTickets(int userId){
+    public List<TicketDetailsResponseDto> allTickets(int userId){
         UserEntity userEntity = userRepository.findById(userId).get();
-        return userEntity.getTicketEntityList();
+        List<TicketEntity> ticketEntityList = userEntity.getTicketEntityList();
+        List<TicketDetailsResponseDto> ticketDetailsResponseDtoList = new ArrayList<>();
+        for(TicketEntity ticketEntity : ticketEntityList){
+            TicketDetailsResponseDto ticketDetailsResponseDto = TicketConvertor.convertEntityToDto(ticketEntity);
+            ticketDetailsResponseDtoList.add(ticketDetailsResponseDto);
+        }
+        return ticketDetailsResponseDtoList;
     }
 
     public String updateUserAddress(int userId, String address){
