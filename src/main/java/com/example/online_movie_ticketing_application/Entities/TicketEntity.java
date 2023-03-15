@@ -1,5 +1,6 @@
 package com.example.online_movie_ticketing_application.Entities;
 
+import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +38,7 @@ public class TicketEntity {
     private String bookedSeats;
 
     @Enumerated(value = EnumType.STRING)
-    private String status;
+    private TicketStatus status;
 
     @ManyToOne
     @JoinColumn

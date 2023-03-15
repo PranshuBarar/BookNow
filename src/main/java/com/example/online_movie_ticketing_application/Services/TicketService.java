@@ -122,7 +122,7 @@ public class TicketService {
         bookedSeats = Arrays.toString(bookedSeatsArr);
         ticketEntity.setBookedSeats(bookedSeats);
 
-        ticketEntity.setStatus(TicketStatus.CANCELLED.name());
+        ticketEntity.setStatus(TicketStatus.CANCELLED);
         ticketEntity.setBookedSeats(null);
 
         showRepository.save(showEntity);
