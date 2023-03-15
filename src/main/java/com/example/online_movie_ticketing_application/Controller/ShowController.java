@@ -20,7 +20,7 @@ public class ShowController {
     }
 
     /*
-        ////Copy-paste the following in postman
+        //Copy-paste the following in postman
         {
             "showDate" : "2023-02-19",
             "showTime": "16:00:00.000",
@@ -36,7 +36,8 @@ public class ShowController {
     public ResponseEntity<String> removeShow(@RequestParam("showId") int showId){
         String response = showService.removeShow(showId);
         if(response.equals("CANCELED")){
-            //Email will be sent to the users that show has been cancelled, you will be refunded your money back
+            //Email will be sent to the users that show has been cancelled,
+            //you will be refunded your money back
         }
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }

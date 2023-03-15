@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/theater")
 public class TheaterController {
@@ -33,9 +35,15 @@ public class TheaterController {
         }
     */
 
-    @DeleteMapping("/remove")
+    @DeleteMapping("/remove") //http://localhost:8080/theater/remove?theaterId=<id here>
     public ResponseEntity<String> removeTheater(@RequestParam("theaterId") int theaterId){
         String response = theaterService.removeTheater(theaterId);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/theaters-with-unique-locations")
+    public ResponseEntity<Map<String,String>> theatersWithUniqueLocations(){
+        Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
+        return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);
     }
 }

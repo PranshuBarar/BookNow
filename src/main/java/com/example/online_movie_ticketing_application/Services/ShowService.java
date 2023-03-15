@@ -119,7 +119,6 @@ public class ShowService {
 
     public String removeShow(int showId){
         ShowEntity showEntity = showRepository.findById(showId).get();
-        LocalTime localTime = LocalTime.now();
         if(showEntity.getShowTime().compareTo(LocalTime.now())>0){
             return "CANCELED";
         }

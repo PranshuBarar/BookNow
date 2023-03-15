@@ -10,8 +10,7 @@ import com.example.online_movie_ticketing_application.Repository.TheaterSeatRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TheaterService {
@@ -76,6 +75,19 @@ public class TheaterService {
     public String removeTheater(int theaterId){
         theaterRepository.deleteById(theaterId);
         return "Theater removed successfully";
+    }
+
+    public Map<String,String> theaterWithUniqueLocations(){
+        Map<String,String> theaterWithUniqueLocations = new HashMap<>();
+        List<TheaterEntity> theaterEntityList = theaterRepository.findAll();
+        for(TheaterEntity theaterEntity : theaterEntityList){
+            String location = theaterEntity.getLocation();
+            if(!theaterWithUniqueLocations.containsKey(location)){
+                String name = theaterEntity.getName();
+                theaterWithUniqueLocations.put(location,name);
+            }
+        }
+        return theaterWithUniqueLocations;
     }
 
 }

@@ -29,23 +29,31 @@ public class UserController {
     }
      /*
         //Copy-paste the following in postman
-        "name" : "Pranshu",
-        "age" : 25,
-        "email" : "pranshubarar1851996@gmail.com",
-        "mobNo" : "8948607977",
-        "address" : "Jhunsi, Allahabad"
+        {
+            "name" : "Pranshu",
+            "age" : 25,
+            "email" : "pranshubarar1851996@gmail.com",
+            "mobNo" : "8948607977",
+            "address" : "Jhunsi, Allahabad"
+        }
     */
 
-    @DeleteMapping("/remove") //http://localhost:8080/users/remove
+    @DeleteMapping("/remove") //http://localhost:8080/users/remove?userId=<id here>
     public ResponseEntity<String> removeUser(@RequestParam("userId") int userId){
         String response = userService.removeUser(userId);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/all-tickets")
+    @GetMapping("/all-tickets") //http://localhost:8080/users/all-tickets?userId=<id here>
     public ResponseEntity<List<TicketEntity>> allTickets(@RequestParam("userId") int userId){
         //This will return all tickets booked by user till now...and this includes even cancelled tickets also
         List<TicketEntity> ticketEntityList = userService.allTickets(userId);
         return new ResponseEntity<>(ticketEntityList,HttpStatus.FOUND);
+    }
+
+    @PutMapping("/update-address/{userId}") //http://localhost:8080/users/update-address/<userId>?address=<new ad. here>
+    public ResponseEntity<String> updateUserAddress(@PathVariable int userId, @RequestParam("address") String address){
+        String response = userService.updateUserAddress(userId,address);
+        return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }
 }

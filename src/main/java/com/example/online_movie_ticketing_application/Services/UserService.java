@@ -62,4 +62,11 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(userId).get();
         return userEntity.getTicketEntityList();
     }
+
+    public String updateUserAddress(int userId, String address){
+        UserEntity userEntity = userRepository.findById(userId).get();
+        userEntity.setAddress(address);
+        userRepository.save(userEntity);
+        return "User address updated successfully";
+    }
 }

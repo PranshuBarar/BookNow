@@ -33,8 +33,4 @@ public class TheaterEntity {
 
     @OneToMany(mappedBy = "theaterEntity", cascade = CascadeType.ALL)
     private List<ShowEntity> showEntityList = new ArrayList<>();
-
-
-
-
 }
