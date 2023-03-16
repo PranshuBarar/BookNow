@@ -1,6 +1,13 @@
 # BOOKNOW - An online movie ticketing application
 This is a Spring Boot application for booking movie tickets online.
 
+# Design of the Application
+![image](https://user-images.githubusercontent.com/117909106/225555163-de58c469-7f1f-4473-b68a-a00ae4051e63.png)
+![image](https://user-images.githubusercontent.com/117909106/225555601-eb9e1b22-aee2-4743-9acf-2745f8227699.png)
+
+# Database Schema (EER Diagram)
+![image](https://user-images.githubusercontent.com/117909106/225558558-376e21dd-8f01-4af5-8f58-b8d4bba940b8.png)
+
 # Description
 This Movie Booking application can do the following tasks : 
 * USERS  
