@@ -104,7 +104,6 @@ This Movie Booking application can do the following tasks :
 # Tech Stack 
 This project uses the following tech stack:
 * Spring Boot
-* Spring Data JPA
 * Hibernate 
 * MySQL WorkBench
 
