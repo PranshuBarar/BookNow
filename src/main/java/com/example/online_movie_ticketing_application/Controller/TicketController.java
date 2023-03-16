@@ -30,7 +30,7 @@ public class TicketController {
         }
     */
 
-    @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?tickedId=<id here>
+    @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?ticketId=<id here>
     public ResponseEntity<TicketDetailsResponseDto> getDetails(@RequestParam("ticketId") int ticketId){
         TicketDetailsResponseDto ticketDetailsResponseDto = ticketService.getDetails(ticketId);
         return new ResponseEntity<>(ticketDetailsResponseDto,HttpStatus.FOUND);

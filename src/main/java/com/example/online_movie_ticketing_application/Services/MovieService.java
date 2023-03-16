@@ -6,6 +6,7 @@ import com.example.online_movie_ticketing_application.Entities.ShowEntity;
 import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.MovieEntryDto;
+import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
@@ -64,24 +65,25 @@ public class MovieService {
         Map<String,Integer> movieAndItsCollectionMap = new HashMap<>();
         List<TicketEntity> ticketEntityList = ticketRepository.findAll();
         for(TicketEntity ticketEntity : ticketEntityList){
+            if(ticketEntity.getStatus().equals(TicketStatus.CANCELLED)){
+                continue;
+            }
             String movieName = ticketEntity.getMovieName();
             int totalAmount = ticketEntity.getTotalAmount();
             int oldCollection = movieAndItsCollectionMap.getOrDefault(movieName,0);
             movieAndItsCollectionMap.put(movieName,oldCollection + totalAmount);
         }
 
-        Map<String, Integer> sortedMap = movieAndItsCollectionMap.entrySet()
+        return movieAndItsCollectionMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(
                         Collectors.toMap(
                                 Map.Entry::getKey,
                                 Map.Entry::getValue,
-                                (e1, e2) -> e1,
+                                (e1, e2) -> e2,
                                 LinkedHashMap::new)
                 );
-
-        return movieAndItsCollectionMap;
     }
 
     public Pair<Integer,String> movieWithMaxShows() {
