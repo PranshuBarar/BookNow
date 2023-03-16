@@ -96,7 +96,7 @@ This Movie Booking application can do the following tasks :
 ![image](https://user-images.githubusercontent.com/117909106/225535437-931bfa30-a86e-449d-b0e1-028726ce9f5d.png)
 
 # Tech Stack 
-This project uses the following open-source libraries:
+This project uses the following tech stack:
 * Spring Boot
 * Spring Data JPA
 * Hibernate 
