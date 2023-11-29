@@ -1,4 +1,5 @@
-# BOOKNOW - An online movie ticketing application (This is a Backend Application)
+# BOOKNOW - An online movie ticketing application 
+(This is a Backend Application)
 This is a Spring Boot application with around 19 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 # Design of the Application
 ![image](https://user-images.githubusercontent.com/117909106/225555163-de58c469-7f1f-4473-b68a-a00ae4051e63.png)
