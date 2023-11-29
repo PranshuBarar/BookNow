@@ -34,7 +34,7 @@ public class ShowSeatEntity {
 
     @ManyToOne
     @JoinColumn
-    ShowEntity showEntity;
+    private ShowEntity showEntity;
 
 
 }

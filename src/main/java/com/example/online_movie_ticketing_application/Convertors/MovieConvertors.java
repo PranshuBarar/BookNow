@@ -2,6 +2,13 @@ package com.example.online_movie_ticketing_application.Convertors;
 
 import com.example.online_movie_ticketing_application.Entities.MovieEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.MovieEntryDto;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
 
 public class MovieConvertors {
 

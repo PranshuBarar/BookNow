@@ -36,6 +36,6 @@ public class MovieEntity {
     private Genre genre;
 
     @OneToMany(mappedBy = "movieEntity", cascade = CascadeType.ALL)
-    List<ShowEntity> showEntityList = new ArrayList<>();
+    private List<ShowEntity> showEntityList = new ArrayList<>();
 
 }

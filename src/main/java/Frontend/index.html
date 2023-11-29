@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticketing Application</title>
+</head>
+<body>
+
+<h1>Movie Ticketing Application</h1>
+
+<div>
+    <h2>Add Movie</h2>
+    <label for="movieName">Movie Name:</label>
+    <input type="text" id="movieName" placeholder="Enter movie name">
+    <br>
+    <label for="ratings">Ratings:</label>
+    <input type="number" id="ratings" placeholder="Enter ratings">
+    <br>
+    <label for="duration">Duration:</label>
+    <input type="number" id="duration" placeholder="Enter duration">
+    <br>
+    <label for="language">Language:</label>
+    <input type="text" id="language" placeholder="Enter language">
+    <br>
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" placeholder="Enter genre">
+    <br>
+    <button onclick="addMovie()">Add Movie</button>
+</div>
+
+<div>
+    <h2>Remove Movie</h2>
+    <label for="movieIdToRemove">Movie ID:</label>
+    <input type="number" id="movieIdToRemove" placeholder="Enter movie ID">
+    <br>
+    <button onclick="removeMovie()">Remove Movie</button>
+</div>
+
+<!-- Add more sections for other endpoints -->
+
+<script>
+    // Define JavaScript functions to make API calls
+
+    function addMovie() {
+        const movieEntryDto = {
+            movieName: document.getElementById('movieName').value,
+            ratings: parseFloat(document.getElementById('ratings').value),
+            duration: parseInt(document.getElementById('duration').value),
+            language: document.getElementById('language').value,
+            genre: document.getElementById('genre').value
+        };
+
+        fetch('http://localhost:8080/movies/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movieEntryDto)
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function removeMovie() {
+        const movieId = parseInt(document.getElementById('movieIdToRemove').value);
+
+        fetch(`http://localhost:8080/movies/remove?movieId=${movieId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Add more JavaScript functions for other endpoints
+</script>
+
+</body>
+</html>

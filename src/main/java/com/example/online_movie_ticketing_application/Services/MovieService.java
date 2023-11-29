@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -53,7 +51,7 @@ public class MovieService {
         Map<String,Integer> movieAndItsCollectionMap = allMoviesTotalCollection();
         Map.Entry<String, Integer> firstEntry = movieAndItsCollectionMap.entrySet().iterator().next();
         String movieName = firstEntry.getKey();
-        Integer totalCollection = firstEntry.getValue();
+        int totalCollection = firstEntry.getValue();
         MovieCollectionResponseDto movieCollectionResponseDto = new MovieCollectionResponseDto();
         movieCollectionResponseDto.setMovieName(movieName);
         movieCollectionResponseDto.setTotalCollection(totalCollection);
@@ -62,7 +60,7 @@ public class MovieService {
 
 
     public Map<String, Integer> allMoviesTotalCollection() {
-        Map<String,Integer> movieAndItsCollectionMap = new HashMap<>();
+        Map<String,Integer> movieAndItsCollection = new HashMap<>();
         List<TicketEntity> ticketEntityList = ticketRepository.findAll();
         for(TicketEntity ticketEntity : ticketEntityList){
             if(ticketEntity.getStatus().equals(TicketStatus.CANCELLED)){
@@ -70,12 +68,11 @@ public class MovieService {
             }
             String movieName = ticketEntity.getMovieName();
             int totalAmount = ticketEntity.getTotalAmount();
-            int oldCollection = movieAndItsCollectionMap.getOrDefault(movieName,0);
-            movieAndItsCollectionMap.put(movieName,oldCollection + totalAmount);
+            int oldCollection = movieAndItsCollection.getOrDefault(movieName,0);
+            movieAndItsCollection.put(movieName,oldCollection + totalAmount);
         }
 
-        return movieAndItsCollectionMap.entrySet()
-                .stream()
+        return movieAndItsCollection.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(
                         Collectors.toMap(
@@ -99,21 +96,24 @@ public class MovieService {
             }
         }
 
-        assert false;
+//        assert false;
         return Pair.of(numberOfShows,movieName);
     }
 
     public List<Pair<LocalDate, LocalTime>> getShowTime(int movieId, int theaterId) {
         List<Pair<LocalDate, LocalTime>> pairList = new ArrayList<>();
-        MovieEntity movieEntity = movieRepository.findById(movieId).get();
-        List<ShowEntity> showEntityList = movieEntity.getShowEntityList();
-        for(ShowEntity showEntity : showEntityList){
-            TheaterEntity theaterEntity = showEntity.getTheaterEntity();
-            if(theaterEntity.getId() == theaterId){
-                LocalDate showDate = showEntity.getShowDate();
-                LocalTime showTime = showEntity.getShowTime();
-                Pair<LocalDate,LocalTime> pair = Pair.of(showDate,showTime);
-                pairList.add(pair);
+        Optional<MovieEntity> optionalMovieEntity = movieRepository.findById(movieId);
+        if(optionalMovieEntity.isPresent()){
+            MovieEntity movieEntity = optionalMovieEntity.get();
+            List<ShowEntity> showEntityList = movieEntity.getShowEntityList();
+            for(ShowEntity showEntity : showEntityList){
+                TheaterEntity theaterEntity = showEntity.getTheaterEntity();
+                if(theaterEntity.getId() == theaterId){
+                    LocalDate showDate = showEntity.getShowDate();
+                    LocalTime showTime = showEntity.getShowTime();
+                    Pair<LocalDate,LocalTime> pair = Pair.of(showDate,showTime);
+                    pairList.add(pair);
+                }
             }
         }
         return pairList;

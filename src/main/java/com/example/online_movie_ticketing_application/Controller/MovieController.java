@@ -23,7 +23,6 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
-
     @PostMapping("/add") //http://localhost:8080/movies/add
     public ResponseEntity<String> addMovie(@RequestBody MovieEntryDto movieEntryDto){
         try {

@@ -50,8 +50,8 @@ public class ShowEntity {
     private MovieEntity movieEntity;//
 
     @OneToMany(mappedBy = "showEntity", cascade = CascadeType.ALL)
-    List<TicketEntity> ticketEntityList = new ArrayList<>();
+    private List<TicketEntity> ticketEntityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "showEntity", cascade = CascadeType.ALL)
-    List<ShowSeatEntity> showSeatEntityList = new ArrayList<>();//
+    private List<ShowSeatEntity> showSeatEntityList = new ArrayList<>();//
 }
