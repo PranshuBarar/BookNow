@@ -5,7 +5,9 @@ This is a Spring Boot application with around 19 APIs for performing all the CRU
 # Design of the Application
 
 ![Screenshot from 2023-12-23 17-20-23](https://github.com/PranshuBarar/BookNow/assets/117909106/d50cd2cc-72f4-4a6c-b835-455fbda4b846)
+
 ![Screenshot from 2023-12-23 17-20-46](https://github.com/PranshuBarar/BookNow/assets/117909106/9e64e046-b72b-4c4c-bf91-6343fdc3ea93)
+
 ![Screenshot from 2023-12-23 17-21-14](https://github.com/PranshuBarar/BookNow/assets/117909106/a873055b-78d0-427a-adca-11d3a306fcc2)
 
 
