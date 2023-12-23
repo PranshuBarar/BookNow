@@ -11,7 +11,6 @@ This is a Spring Boot application with around 19 APIs for performing all the CRU
 ![Screenshot from 2023-12-23 17-21-14](https://github.com/PranshuBarar/BookNow/assets/117909106/a873055b-78d0-427a-adca-11d3a306fcc2)
 
 
-
 # Database Schema (EER Diagram)
 ![image](https://user-images.githubusercontent.com/117909106/225558558-376e21dd-8f01-4af5-8f58-b8d4bba940b8.png)
 
