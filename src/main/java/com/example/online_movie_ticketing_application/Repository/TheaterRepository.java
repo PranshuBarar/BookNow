@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TheaterRepository extends JpaRepository<TheaterEntity, Integer> {
-    boolean existsByName(String theaterName);
+    boolean existsByName(String name);
 
-    TheaterEntity findByName(String theaterName);
+    TheaterEntity findByName(String name);
 
-    int deleteByTheaterName(String theaterName);
+    int deleteByName(String name);
 }

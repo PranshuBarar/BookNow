@@ -55,8 +55,6 @@ public class MovieService {
 
     }
 
-    //Here Exception handling is required. When there is not movie named <movieName> what
-    //to through out/say to the user?
     public int totalCollectionOfMovie(String movieName){
         int totalCollection = ticketRepository.getTotalCollectionOfMovie(movieName);
         if(totalCollection==0){

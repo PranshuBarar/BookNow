@@ -83,7 +83,7 @@ public class TheaterService {
 
     @Transactional
     public String removeTheater(String theaterName) throws Exception {
-        int theaterRemoveStatus = theaterRepository.deleteByTheaterName(theaterName);
+        int theaterRemoveStatus = theaterRepository.deleteByName(theaterName);
         if(theaterRemoveStatus == 0){
             throw new Exception("Theater not found");
         } else {

@@ -55,7 +55,7 @@ public class MovieController {
         }
     */
 
-    @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieId=<id here>
+    @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieName=<name_here>
     public ResponseEntity<String> removeMovie(@RequestParam("movieName") String movieName) {
         try{
             String response = movieService.removeMovie(movieName);
