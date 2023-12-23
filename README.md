@@ -4,13 +4,9 @@
 This is a Spring Boot application with around 19 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 # Design of the Application
 
-![Screenshot from 2023-12-23 17-29-46](https://github.com/PranshuBarar/BookNow/assets/117909106/54019322-2b12-4920-bcbb-661196330d0c)
+![Screenshot-from-2023-12-23-17-29 (1)](https://github.com/PranshuBarar/BookNow/assets/117909106/8d9911ad-7795-4298-b075-850da42dc403)
 
-![Screenshot from 2023-12-23 17-30-23](https://github.com/PranshuBarar/BookNow/assets/117909106/8fbdc094-062b-44fb-820a-0a2dd498a9bb)
 
-![Screenshot from 2023-12-23 17-30-54](https://github.com/PranshuBarar/BookNow/assets/117909106/472f7326-5eaa-4e84-8c5e-5ff1ff077b25)
-
-![Screenshot from 2023-12-23 17-31-15](https://github.com/PranshuBarar/BookNow/assets/117909106/9b7815b7-c50b-43fc-a468-15c73d3b8525)
 
 # Database Schema (EER Diagram)
 ![image](https://user-images.githubusercontent.com/117909106/225558558-376e21dd-8f01-4af5-8f58-b8d4bba940b8.png)
