@@ -140,6 +140,7 @@ public class TicketService {
         }
     }
 
+    //Exception handling is required here
     public TicketDetailsResponseDto getDetails(int ticketId){
         TicketEntity ticketEntity = ticketRepository.findById(ticketId).get();
         return TicketConvertor.convertEntityToDto(ticketEntity);

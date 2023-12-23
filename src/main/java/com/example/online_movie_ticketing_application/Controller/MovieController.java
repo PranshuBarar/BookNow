@@ -1,20 +1,18 @@
 package com.example.online_movie_ticketing_application.Controller;
-
+import com.example.online_movie_ticketing_application.ResponseDto.MovieAndItsShowsResponseDto;
+import com.example.online_movie_ticketing_application.Entities.MovieEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.MovieEntryDto;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
+import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
+import com.example.online_movie_ticketing_application.ResponseDto.ShowTimeResponseDto;
 import com.example.online_movie_ticketing_application.Services.MovieService;
-import com.example.online_movie_ticketing_application.Services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/movies")
@@ -22,6 +20,18 @@ public class MovieController {
 
     @Autowired
     MovieService movieService;
+
+    @GetMapping("/test") //http://localhost:8080/movies/test
+    public ResponseEntity<String> test(){
+        String response = "hello how are you?";
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/hello") //http://localhost:8080/movies/hello
+    public ResponseEntity<String> hello(){
+        String response = "hello how are you?";
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
 
     @PostMapping("/add") //http://localhost:8080/movies/add
     public ResponseEntity<String> addMovie(@RequestBody MovieEntryDto movieEntryDto){
@@ -37,48 +47,88 @@ public class MovieController {
     /*
         //Copy-paste the following in postman
         {
-           "movieName" : "Pathan",
+           "movieName" : "Inception",
            "ratings" : 7.6,
            "duration" : 3,
-           "language" : "HINDI",
+           "language" : "ENGLISH",
            "genre" : "ACTION"
         }
     */
 
     @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieId=<id here>
-    public ResponseEntity<String> removeMovie(@RequestParam("movieId") int movieId){
-        String response = movieService.removeMovie(movieId);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    public ResponseEntity<String> removeMovie(@RequestParam("movieName") String movieName) {
+        try{
+            String response = movieService.removeMovie(movieName);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch(Exception e){
+            return new ResponseEntity<>("Movie with this name: \"" + movieName + "\" does not exist", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
-    @GetMapping("/get-show-time") //http://localhost:8080/movies/get-show-time?movie-id=<id here>&theater-id=<id here>
-    public ResponseEntity<List<Pair<LocalDate,LocalTime>>> getShowTime(@RequestParam("movie-id") int movieId,
-                                                       @RequestParam("theater-id") int theaterId){
-        List<Pair<LocalDate,LocalTime>> pairList = movieService.getShowTime(movieId,theaterId);
-        return new ResponseEntity<>(pairList,HttpStatus.FOUND);
+    @GetMapping("/get-show-time") //http://localhost:8080/movies/get-show-time?movie-name=<name_here>&theater-name=<name_here>
+    public ResponseEntity<?> getShowTime(@RequestParam("movie-name") String movieName,
+                                                           @RequestParam("theater-name") String theaterName){
+        try{
+            List<ShowDateAndTimeResponseDto> pairList = movieService.getShowTime(movieName,theaterName);
+            return new ResponseEntity<>(new ShowTimeResponseDto(pairList),HttpStatus.FOUND);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/movie-with-max-shows") //http://localhost:8080/movies/movie-with-max-shows
-    public ResponseEntity<Pair<Integer,String>> movieWithMaxShows(){
-        Pair<Integer, String> pair = movieService.movieWithMaxShows();
-        return new ResponseEntity<>(pair,HttpStatus.FOUND);
+    public ResponseEntity<?> movieWithMaxShows(){
+        try{
+            MovieAndItsShowsResponseDto movieAndItsShowsResponseDto = movieService.movieWithMaxShows();
+            return new ResponseEntity<>(movieAndItsShowsResponseDto,HttpStatus.FOUND);
+        } catch(Exception e){
+            return new ResponseEntity<>("No movie found", HttpStatus.NOT_FOUND);
+        }
     }
 
+
     @GetMapping("/movie-with-max-collection") //http://localhost:8080/movies/movie-with-max-collection
-    public ResponseEntity<MovieCollectionResponseDto> movieWithMaxCollection(){
-        MovieCollectionResponseDto movieCollectionResponseDto = movieService.movieWithMaxCollection();
-        return new ResponseEntity<>(movieCollectionResponseDto,HttpStatus.FOUND);
+    public ResponseEntity<?> movieWithMaxCollection() {
+        try{
+            MovieCollectionResponseDto movieCollectionResponseDto = movieService.movieWithMaxCollection();
+            return new ResponseEntity<>(movieCollectionResponseDto,HttpStatus.FOUND);
+        } catch(Exception e){
+            return new ResponseEntity<>("No movie found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/all-movies-total-collection") //http://localhost:8080/movies/all-movies-total-collection
-    public ResponseEntity<Map<String /*movieName*/, Integer /*totalCollection*/>> allMoviesTotalCollection(){
-        Map<String,Integer> moviesAndTheirCollections = movieService.allMoviesTotalCollection();
-        return new ResponseEntity<>(moviesAndTheirCollections,HttpStatus.FOUND);
+    public ResponseEntity<?> allMoviesTotalCollection() {
+        try{
+            Map<String,Integer> moviesAndTheirCollections = movieService.allMoviesTotalCollection();
+            return new ResponseEntity<>(moviesAndTheirCollections,HttpStatus.FOUND);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
     }
 
+
     @GetMapping("/collection/{movie}") //http://localhost:8080/movies/collection/<movie>
-    public ResponseEntity<Integer> totalCollectionOfMovie(@PathVariable("movie") String movieName){
-        int collection = movieService.totalCollectionOfMovie(movieName);
-        return new ResponseEntity<>(collection,HttpStatus.FOUND);
+    public ResponseEntity<?> totalCollectionOfMovie(@PathVariable("movie") String movieName){
+        try{
+            int collection = movieService.totalCollectionOfMovie(movieName);
+            return new ResponseEntity<>(collection,HttpStatus.FOUND);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("No movie with movieName: "+movieName, HttpStatus.NOT_FOUND );
+        }
+
+    }
+
+    @GetMapping("/allmovies") //http://localhost:8080/movies/allmovies
+    public ResponseEntity<?> getAllMovies(){
+        try{
+            List<MovieEntity> movieEntityList = movieService.getAllMovies();
+            return new ResponseEntity<>(movieEntityList,HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("No movies found", HttpStatus.NOT_FOUND);
+        }
     }
 }

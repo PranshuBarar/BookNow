@@ -3,7 +3,7 @@ package com.example.online_movie_ticketing_application.EntryDtos;
 import lombok.Data;
 
 @Data
-public class UserEntryDto {
+public class UserRegisterEntryDto {
 
     private String name;
 
@@ -14,4 +14,6 @@ public class UserEntryDto {
     private String mobNo;
 
     private String address;
+
+//    private String password;
 }

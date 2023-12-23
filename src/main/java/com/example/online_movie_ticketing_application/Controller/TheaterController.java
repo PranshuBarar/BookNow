@@ -36,14 +36,27 @@ public class TheaterController {
     */
 
     @DeleteMapping("/remove") //http://localhost:8080/theater/remove?theaterId=<id here>
-    public ResponseEntity<String> removeTheater(@RequestParam("theaterId") int theaterId){
-        String response = theaterService.removeTheater(theaterId);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    public ResponseEntity<?> removeTheater(@RequestParam("theaterName") String theaterName) throws Exception {
+        try{
+            String response = theaterService.removeTheater(theaterName);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+
     }
 
+    /*It is giving blank braces '{}' when no theaters are there with unique locations
+    * It should say that no theaters are there with unique locations*/
     @GetMapping("/theaters-with-unique-locations") //http://localhost:8080/theater/theaters-with-unique-locations
-    public ResponseEntity<Map<String,String>> theatersWithUniqueLocations(){
-        Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
-        return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);
+    public ResponseEntity<?> theatersWithUniqueLocations(){
+        try{
+            Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
+            return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+
     }
 }

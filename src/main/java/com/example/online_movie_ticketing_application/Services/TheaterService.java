@@ -7,6 +7,8 @@ import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterSeatRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,49 +47,67 @@ public class TheaterService {
     }
 
     private List<TheaterSeatEntity> createTheaterSeats(TheaterEntryDto theaterEntryDto, TheaterEntity theaterEntity){
-        int noClassicSeats = theaterEntryDto.getClassicSeatsCount();
-        int noPremiumSeats = theaterEntryDto.getPremiumSeatsCount();
+        int numberOfClassicSeats = theaterEntryDto.getClassicSeatsCount();
+        int numberOfPremiumSeats = theaterEntryDto.getPremiumSeatsCount();
 
         List<TheaterSeatEntity> theaterSeatEntityList = new ArrayList<>();
 
         //Create the classic Seats
-        for(int count = 1; count<=noClassicSeats; count++){
-
-            //We need to make a new TheaterSeatEntity
-
-            TheaterSeatEntity theaterSeatEntity = TheaterSeatEntity.builder()
-                    .seatType(SeatType.CLASSIC).seatNo(count+"C").theaterEntity(theaterEntity).build();
-
-            theaterSeatEntityList.add(theaterSeatEntity);
-        }
+        classicSeatsCreation(theaterEntity, numberOfClassicSeats, theaterSeatEntityList);
 
         //Create the premium Seats
-        for(int count = 1; count<=noPremiumSeats; count++){
+        premiumSeatsCreation(theaterEntity, numberOfPremiumSeats, theaterSeatEntityList);
+
+        return theaterSeatEntityList;
+    }
+
+    private static void premiumSeatsCreation(TheaterEntity theaterEntity, int numberOfPremiumSeats, List<TheaterSeatEntity> theaterSeatEntityList) {
+        for(int count = 1; count<= numberOfPremiumSeats; count++){
             TheaterSeatEntity theaterSeatEntity = TheaterSeatEntity.builder()
                     .seatType(SeatType.PREMIUM).seatNo(count+"P").theaterEntity(theaterEntity).build();
 
             theaterSeatEntityList.add(theaterSeatEntity);
         }
-
-        return theaterSeatEntityList;
     }
 
-    public String removeTheater(int theaterId){
-        theaterRepository.deleteById(theaterId);
-        return "Theater removed successfully";
+    private static void classicSeatsCreation(TheaterEntity theaterEntity, int numberOfClassicSeats, List<TheaterSeatEntity> theaterSeatEntityList) {
+
+        for(int count = 1; count<= numberOfClassicSeats; count++){
+            //We need to make a new TheaterSeatEntity
+            TheaterSeatEntity theaterSeatEntity = TheaterSeatEntity.builder()
+                    .seatType(SeatType.CLASSIC).seatNo(count+"C").theaterEntity(theaterEntity).build();
+
+            theaterSeatEntityList.add(theaterSeatEntity);
+        }
+    }
+
+    @Transactional
+    public String removeTheater(String theaterName) throws Exception {
+        int theaterRemoveStatus = theaterRepository.deleteByTheaterName(theaterName);
+        if(theaterRemoveStatus == 0){
+            throw new Exception("Theater not found");
+        } else {
+            return "Theater removed successfully";
+        }
     }
 
     public Map<String,String> theaterWithUniqueLocations(){
         Map<String,String> theaterWithUniqueLocations = new HashMap<>();
-        List<TheaterEntity> theaterEntityList = theaterRepository.findAll();
-        for(TheaterEntity theaterEntity : theaterEntityList){
-            String location = theaterEntity.getLocation();
-            if(!theaterWithUniqueLocations.containsKey(location)){
-                String name = theaterEntity.getName();
-                theaterWithUniqueLocations.put(location,name);
+        try{
+            List<TheaterEntity> theaterEntityList = theaterRepository.findAll();
+            for(TheaterEntity theaterEntity : theaterEntityList){
+                String location = theaterEntity.getLocation();
+                if(!theaterWithUniqueLocations.containsKey(location)){
+                    String name = theaterEntity.getName();
+                    theaterWithUniqueLocations.put(location,name);
+                }
             }
+            return theaterWithUniqueLocations;
         }
-        return theaterWithUniqueLocations;
+        catch(Exception e){
+            throw new EntityNotFoundException("No theater found");
+        }
+
     }
 
 }

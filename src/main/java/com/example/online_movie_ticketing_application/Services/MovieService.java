@@ -1,6 +1,9 @@
 package com.example.online_movie_ticketing_application.Services;
 
 import com.example.online_movie_ticketing_application.Convertors.MovieConvertors;
+import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeFirstException;
+import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeSecondException;
+import com.example.online_movie_ticketing_application.ResponseDto.MovieAndItsShowsResponseDto;
 import com.example.online_movie_ticketing_application.Entities.MovieEntity;
 import com.example.online_movie_ticketing_application.Entities.ShowEntity;
 import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
@@ -10,8 +13,10 @@ import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
+import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,17 +43,38 @@ public class MovieService {
         return "Movie added successfully";
     }
 
-    public String removeMovie(int movieId){
-        movieRepository.deleteById(movieId);
-        return "Movie deleted successfully";
+    @Transactional
+    public String removeMovie(String movieName) throws Exception{
+        if(movieRepository.existsByMovieName(movieName)) {
+            Integer movieEntity = movieRepository.deleteByMovieName(movieName);
+            return "Movie deleted successfully";
+        }
+        else {
+            throw new Exception();
+        }
+
     }
 
+    //Here Exception handling is required. When there is not movie named <movieName> what
+    //to through out/say to the user?
     public int totalCollectionOfMovie(String movieName){
-        return ticketRepository.getTotalCollectionOfMovie(movieName);
+        int totalCollection = ticketRepository.getTotalCollectionOfMovie(movieName);
+        if(totalCollection==0){
+            throw new EntityNotFoundException();
+        }
+        else {
+            return totalCollection;
+        }
     }
 
-    public MovieCollectionResponseDto movieWithMaxCollection(){
+    //Exception handling required here.If there is no movie at all in the database then
+    //allMovieTotalCollection() will give null and hence we can't iterate over null and hence it
+    //will through exception. So what to say to user in that case?
+    public MovieCollectionResponseDto movieWithMaxCollection() throws Exception {
         Map<String,Integer> movieAndItsCollectionMap = allMoviesTotalCollection();
+        if(movieAndItsCollectionMap.isEmpty()){
+            throw new Exception("No movie found");
+        }
         Map.Entry<String, Integer> firstEntry = movieAndItsCollectionMap.entrySet().iterator().next();
         String movieName = firstEntry.getKey();
         int totalCollection = firstEntry.getValue();
@@ -59,7 +85,7 @@ public class MovieService {
     }
 
 
-    public Map<String, Integer> allMoviesTotalCollection() {
+    public Map<String, Integer> allMoviesTotalCollection() throws Exception {
         Map<String,Integer> movieAndItsCollection = new HashMap<>();
         List<TicketEntity> ticketEntityList = ticketRepository.findAll();
         for(TicketEntity ticketEntity : ticketEntityList){
@@ -70,6 +96,10 @@ public class MovieService {
             int totalAmount = ticketEntity.getTotalAmount();
             int oldCollection = movieAndItsCollection.getOrDefault(movieName,0);
             movieAndItsCollection.put(movieName,oldCollection + totalAmount);
+        }
+
+        if(movieAndItsCollection.isEmpty()){
+            throw new Exception("No movie found");
         }
 
         return movieAndItsCollection.entrySet().stream()
@@ -83,7 +113,7 @@ public class MovieService {
                 );
     }
 
-    public Pair<Integer,String> movieWithMaxShows() {
+    public MovieAndItsShowsResponseDto movieWithMaxShows() {
 
         String movieName = "";
         int numberOfShows = 0;
@@ -95,27 +125,44 @@ public class MovieService {
                 movieName = movieEntity.getMovieName();
             }
         }
-
-//        assert false;
-        return Pair.of(numberOfShows,movieName);
+        return new MovieAndItsShowsResponseDto(movieName,numberOfShows);
     }
 
-    public List<Pair<LocalDate, LocalTime>> getShowTime(int movieId, int theaterId) {
-        List<Pair<LocalDate, LocalTime>> pairList = new ArrayList<>();
-        Optional<MovieEntity> optionalMovieEntity = movieRepository.findById(movieId);
+    public List<ShowDateAndTimeResponseDto> getShowTime(String movieName, String theaterName) throws Exception {
+        List<ShowDateAndTimeResponseDto> pairList = new ArrayList<>();
+        Optional<MovieEntity> optionalMovieEntity = Optional.ofNullable(movieRepository.findByMovieName(movieName));
         if(optionalMovieEntity.isPresent()){
             MovieEntity movieEntity = optionalMovieEntity.get();
             List<ShowEntity> showEntityList = movieEntity.getShowEntityList();
             for(ShowEntity showEntity : showEntityList){
                 TheaterEntity theaterEntity = showEntity.getTheaterEntity();
-                if(theaterEntity.getId() == theaterId){
+                if(theaterEntity.getName().equals(theaterName)){
                     LocalDate showDate = showEntity.getShowDate();
                     LocalTime showTime = showEntity.getShowTime();
-                    Pair<LocalDate,LocalTime> pair = Pair.of(showDate,showTime);
-                    pairList.add(pair);
+                    ShowDateAndTimeResponseDto showDateAndTimeResponseDto = new ShowDateAndTimeResponseDto(showDate,showTime);
+                    pairList.add(showDateAndTimeResponseDto);
                 }
             }
+            if(pairList.isEmpty()){
+                throw new ShowTimeFirstException("There is no show of " + movieName + " running in " + theaterName);
+            }
+            else {
+                return pairList;
+            }
         }
-        return pairList;
+        else {
+            throw new ShowTimeSecondException("There is no movie named " + movieName);
+        }
+
+    }
+
+    public List<MovieEntity> getAllMovies(){
+        List<MovieEntity> movieEntityList = movieRepository.findAll();
+        if(movieEntityList.isEmpty()){
+            throw new EntityNotFoundException();
+        }
+        else {
+            return movieEntityList;
+        }
     }
 }

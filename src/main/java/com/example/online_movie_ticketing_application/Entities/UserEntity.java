@@ -22,6 +22,7 @@ public class UserEntity {
 
     private int age;
 
+
     @Column(unique = true, nullable = false)
     private String email;
 

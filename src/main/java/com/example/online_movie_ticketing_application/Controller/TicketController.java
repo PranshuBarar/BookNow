@@ -15,6 +15,7 @@ public class TicketController {
     @Autowired
     TicketService ticketService;
 
+
     @PostMapping("/booking_ticket") //http://localhost:8080/tickets/booking_ticket
     public ResponseEntity<String> bookTicket(@RequestBody TicketEntryDto ticketEntryDto) throws Exception {
         String response = ticketService.bookTicket(ticketEntryDto);
@@ -30,12 +31,14 @@ public class TicketController {
         }
     */
 
+    //Exception handling is required here. If no ticket with this ticket id it should throw some message
     @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?ticketId=<id here>
     public ResponseEntity<TicketDetailsResponseDto> getDetails(@RequestParam("ticketId") int ticketId){
         TicketDetailsResponseDto ticketDetailsResponseDto = ticketService.getDetails(ticketId);
         return new ResponseEntity<>(ticketDetailsResponseDto,HttpStatus.FOUND);
     }
 
+    //Exception handling is requried here
     @DeleteMapping("/cancel_ticket") //http://localhost:8080/tickets/cancel_ticket?ticketId=<id here>
     public ResponseEntity<String> cancelTicket(@RequestParam("ticketId") int ticketId){
         String response = ticketService.cancelTicket(ticketId);

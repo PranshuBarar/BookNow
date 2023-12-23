@@ -4,5 +4,14 @@ public enum Genre {
     FICTIONAL,
     COMEDY,
     ACTION,
-    HORROR
+    HORROR,
+    SCIENCE_FICTION,
+    DRAMA,
+    ROMANCE,
+    ADVENTURE,
+    FANTASY,
+    CRIME,
+    ANIMATION,
+    WAR,
+    SCI_FI
 }

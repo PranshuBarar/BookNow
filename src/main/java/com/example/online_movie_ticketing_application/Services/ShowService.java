@@ -2,14 +2,17 @@ package com.example.online_movie_ticketing_application.Services;
 
 import com.example.online_movie_ticketing_application.Convertors.ShowConvertors;
 import com.example.online_movie_ticketing_application.Entities.*;
+import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeEntryDto;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
+import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,13 +115,28 @@ public class ShowService {
         return showSeatEntityList;
     }
 
-    public String removeShow(int showId){
-        ShowEntity showEntity = showRepository.findById(showId).get();
-        if(showEntity.getShowTime().compareTo(LocalTime.now())>0){
-            return "CANCELED";
-        }
-        showRepository.deleteById(showId);
-        return "REMOVED";
-    }
+    public ShowCancellationResponse cancelShow(ShowDateAndTimeEntryDto showDateAndTimeEntryDto) throws Exception {
+        String theaterName = showDateAndTimeEntryDto.getTheaterName();
+        LocalDate showDate = showDateAndTimeEntryDto.getShowDate();
+        LocalTime showTime = showDateAndTimeEntryDto.getShowTime();
+        try{
+            TheaterEntity theaterEntity = theaterRepository.findByName(theaterName);
+            List<ShowEntity> showEntityList = theaterEntity.getShowEntityList();
+            for(ShowEntity showEntity : showEntityList){
+                if(showEntity.getShowDate() == showDate && showEntity.getShowTime() == showTime){
+                    if(LocalDate.now().isBefore(showDate) && LocalTime.now().isBefore(showTime)){
+                        showRepository.deleteById(showEntity.getId());
+                        return ShowCancellationResponse.SHOW_IS_CANCELED_SUCCESSFULLY;
+                    }
+                    else {
+                        return ShowCancellationResponse.SHOW_IS_ALREADY_OVER;
+                    }
+                }
+            }
+            return ShowCancellationResponse.SHOW_NOT_FOUND;
 
+        } catch(Exception e){
+            throw new Exception("Theater not found");
+        }
+    }
 }
