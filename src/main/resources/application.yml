@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/booknowdb?createDatabaseIfNotExist=true
+    username: username
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    user:
+      password: password123
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 392198781443-v51jrgikrlfdc10vcjslaqkdl3nqjkdc.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid,profile,email
+
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+  jackson:
+    default-property-inclusion: NON_NULL
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operationsSorter: method
+logging:
+  level:
+    root: DEBUG
+  file:
+    name: /var/log/myapp2.log

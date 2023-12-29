@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services;
+package com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.TheaterConvertors;
 import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
@@ -7,15 +7,15 @@ import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterSeatRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class TheaterService {
+public class TheaterServiceOnlyAdmin {
 
     @Autowired
     TheaterSeatRepository theaterSeatRepository;
@@ -89,25 +89,6 @@ public class TheaterService {
         } else {
             return "Theater removed successfully";
         }
-    }
-
-    public Map<String,String> theaterWithUniqueLocations(){
-        Map<String,String> theaterWithUniqueLocations = new HashMap<>();
-        try{
-            List<TheaterEntity> theaterEntityList = theaterRepository.findAll();
-            for(TheaterEntity theaterEntity : theaterEntityList){
-                String location = theaterEntity.getLocation();
-                if(!theaterWithUniqueLocations.containsKey(location)){
-                    String name = theaterEntity.getName();
-                    theaterWithUniqueLocations.put(location,name);
-                }
-            }
-            return theaterWithUniqueLocations;
-        }
-        catch(Exception e){
-            throw new EntityNotFoundException("No theater found");
-        }
-
     }
 
 }

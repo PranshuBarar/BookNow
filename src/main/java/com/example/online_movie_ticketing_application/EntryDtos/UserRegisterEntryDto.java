@@ -15,5 +15,5 @@ public class UserRegisterEntryDto {
 
     private String address;
 
-//    private String password;
+    private String password;
 }

@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services;
+package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
 import com.example.online_movie_ticketing_application.Entities.ShowEntity;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TicketService {
+public class TicketServiceUserAndAdmin {
 
     @Autowired
     TicketRepository ticketRepository;

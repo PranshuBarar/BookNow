@@ -1,24 +1,22 @@
-package com.example.online_movie_ticketing_application.Controller;
+package com.example.online_movie_ticketing_application.Controller.OnlyAdminAPIs;
 
 import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
-import com.example.online_movie_ticketing_application.Services.TheaterService;
+import com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs.TheaterServiceOnlyAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/theater")
-public class TheaterController {
+@RequestMapping("/admin/theater")
+public class TheaterControllerForAdmin {
     @Autowired
-    TheaterService theaterService;
+    TheaterServiceOnlyAdmin theaterServiceOnlyAdmin;
 
     @PostMapping("/add") //http://localhost:8080/theater/add
     public ResponseEntity<String> addTheater(@RequestBody TheaterEntryDto theaterEntryDto){
         try {
-            String result = theaterService.addTheater(theaterEntryDto);
+            String result = theaterServiceOnlyAdmin.addTheater(theaterEntryDto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -38,25 +36,11 @@ public class TheaterController {
     @DeleteMapping("/remove") //http://localhost:8080/theater/remove?theaterId=<id here>
     public ResponseEntity<?> removeTheater(@RequestParam("theaterName") String theaterName) throws Exception {
         try{
-            String response = theaterService.removeTheater(theaterName);
+            String response = theaterServiceOnlyAdmin.removeTheater(theaterName);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         }
         catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
-
-    }
-
-    /*It is giving blank braces '{}' when no theaters are there with unique locations
-    * It should say that no theaters are there with unique locations*/
-    @GetMapping("/theaters-with-unique-locations") //http://localhost:8080/theater/theaters-with-unique-locations
-    public ResponseEntity<?> theatersWithUniqueLocations(){
-        try{
-            Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
-            return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);
-        } catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
-        }
-
     }
 }

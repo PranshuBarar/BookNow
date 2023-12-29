@@ -7,7 +7,13 @@ public class UserConvertor {
 
     public static UserEntity convertDtoToEntity(UserRegisterEntryDto userRegisterEntryDto){
 
-        return UserEntity.builder().age(userRegisterEntryDto.getAge()).address(userRegisterEntryDto.getAddress())
-                .email(userRegisterEntryDto.getEmail()).mobNo(userRegisterEntryDto.getMobNo()).name(userRegisterEntryDto.getName()).build();
+        return UserEntity.builder()
+                .age(userRegisterEntryDto.getAge())
+                .address(userRegisterEntryDto.getAddress())
+                .email(userRegisterEntryDto.getEmail())
+                .mobNo(userRegisterEntryDto.getMobNo())
+                .name(userRegisterEntryDto.getName())
+                .password(userRegisterEntryDto.getPassword())
+                .build();
     }
 }

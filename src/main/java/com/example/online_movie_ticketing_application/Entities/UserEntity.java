@@ -31,6 +31,8 @@ public class UserEntity {
 
     private String address;
 
+    private String password;
+
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<TicketEntity> ticketEntityList = new ArrayList<>();
 }

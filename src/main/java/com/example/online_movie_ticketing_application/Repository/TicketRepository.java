@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TicketRepository extends JpaRepository<TicketEntity, Integer> {
     @Query(value = "SELECT SUM(total_amount) as totalSum FROM tickets WHERE movie_name = :movieName",

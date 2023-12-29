@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services;
+package com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.ShowConvertors;
 import com.example.online_movie_ticketing_application.Entities.*;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShowService {
+public class ShowServiceOnlyAdmin {
     @Autowired
     MovieRepository movieRepository;
 

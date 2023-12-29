@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services;
+package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.MovieConvertors;
 import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeFirstException;
@@ -14,6 +14,7 @@ import com.example.online_movie_ticketing_application.Repository.MovieRepository
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
 import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,34 +27,13 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class MovieService {
+public class MovieServiceUserAndAdmin {
 
     @Autowired
     MovieRepository movieRepository;
 
     @Autowired
     TicketRepository ticketRepository;
-    public String addMovie(MovieEntryDto movieEntryDto){
-        MovieEntity movieEntity = MovieConvertors.convertMovieEntryDtoToEntity(movieEntryDto);
-        boolean movieExists = movieRepository.existsByMovieName(movieEntryDto.getMovieName());
-        if(movieExists){
-            return "Movie already exists";
-        }
-        movieRepository.save(movieEntity);
-        return "Movie added successfully";
-    }
-
-    @Transactional
-    public String removeMovie(String movieName) throws Exception{
-        if(movieRepository.existsByMovieName(movieName)) {
-            Integer movieEntity = movieRepository.deleteByMovieName(movieName);
-            return "Movie deleted successfully";
-        }
-        else {
-            throw new Exception();
-        }
-
-    }
 
     public int totalCollectionOfMovie(String movieName){
         int totalCollection = ticketRepository.getTotalCollectionOfMovie(movieName);
@@ -65,9 +45,6 @@ public class MovieService {
         }
     }
 
-    //Exception handling required here.If there is no movie at all in the database then
-    //allMovieTotalCollection() will give null and hence we can't iterate over null and hence it
-    //will through exception. So what to say to user in that case?
     public MovieCollectionResponseDto movieWithMaxCollection() throws Exception {
         Map<String,Integer> movieAndItsCollectionMap = allMoviesTotalCollection();
         if(movieAndItsCollectionMap.isEmpty()){
@@ -151,7 +128,6 @@ public class MovieService {
         else {
             throw new ShowTimeSecondException("There is no movie named " + movieName);
         }
-
     }
 
     public List<MovieEntity> getAllMovies(){
