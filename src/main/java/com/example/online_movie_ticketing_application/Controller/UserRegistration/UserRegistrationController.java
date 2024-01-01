@@ -1,7 +1,7 @@
 package com.example.online_movie_ticketing_application.Controller.UserRegistration;
 
 import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntryDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.LoggedInUsers.UserServiceUserAndAdmin;
+import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserServiceUserAndAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,7 @@ public class UserRegistrationController {
             String response = userServiceUserAndAdmin.registerUser(userRegisterEntryDto);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch(Exception e){
-            String result = "User could not be added";
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
      /*

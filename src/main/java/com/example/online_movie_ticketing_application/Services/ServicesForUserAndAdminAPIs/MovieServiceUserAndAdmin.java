@@ -111,7 +111,7 @@ public class MovieServiceUserAndAdmin {
             List<ShowEntity> showEntityList = movieEntity.getShowEntityList();
             for(ShowEntity showEntity : showEntityList){
                 TheaterEntity theaterEntity = showEntity.getTheaterEntity();
-                if(theaterEntity.getName().equals(theaterName)){
+                if(theaterEntity.getTheaterName().equals(theaterName)){
                     LocalDate showDate = showEntity.getShowDate();
                     LocalTime showTime = showEntity.getShowTime();
                     ShowDateAndTimeResponseDto showDateAndTimeResponseDto = new ShowDateAndTimeResponseDto(showDate,showTime);

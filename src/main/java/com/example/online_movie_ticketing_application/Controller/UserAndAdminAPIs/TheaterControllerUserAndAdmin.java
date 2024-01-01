@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/theater")
-public class TheaterController {
+public class TheaterControllerUserAndAdmin {
     @Autowired
     TheaterServiceUserAndAdmin theaterServiceUserAndAdmin;
 
@@ -22,6 +22,5 @@ public class TheaterController {
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
-
     }
 }

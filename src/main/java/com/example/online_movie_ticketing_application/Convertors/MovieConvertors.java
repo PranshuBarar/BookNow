@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 public class MovieConvertors {
 
     public static MovieEntity convertMovieEntryDtoToEntity(MovieEntryDto movieEntryDto){
-        MovieEntity movieEntity = MovieEntity.builder().movieName(movieEntryDto.getMovieName()).duration(movieEntryDto.getDuration())
+        return MovieEntity.builder().movieName(movieEntryDto.getMovieName()).duration(movieEntryDto.getDuration())
                 .genre(movieEntryDto.getGenre()).language(movieEntryDto.getLanguage()).ratings(movieEntryDto.getRatings()).build();
-        return movieEntity;
     }
 }

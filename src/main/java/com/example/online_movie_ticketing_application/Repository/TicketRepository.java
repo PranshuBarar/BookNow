@@ -13,4 +13,6 @@ public interface TicketRepository extends JpaRepository<TicketEntity, Integer> {
     @Query(value = "SELECT SUM(total_amount) as totalSum FROM tickets WHERE movie_name = :movieName",
     nativeQuery = true)
     int getTotalCollectionOfMovie(String movieName);
+
+    TicketEntity findByTicketId(String ticketUUID);
 }

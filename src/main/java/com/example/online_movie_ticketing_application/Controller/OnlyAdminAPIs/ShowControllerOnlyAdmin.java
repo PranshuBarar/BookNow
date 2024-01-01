@@ -1,5 +1,6 @@
 package com.example.online_movie_ticketing_application.Controller.OnlyAdminAPIs;
 
+import com.example.online_movie_ticketing_application.CustomExceptions.ShowAlreadyExistsException;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeEntryDto;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
 import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
@@ -11,14 +12,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/show")
-public class ShowControllerForAdmin {
+public class ShowControllerOnlyAdmin {
     @Autowired
     ShowServiceOnlyAdmin showServiceOnlyAdmin;
 
     @PostMapping("/add") //http://localhost:8080/show/add
-    public ResponseEntity<String> addShow(@RequestBody ShowEntryDto showEntryDto){
-        String response = showServiceOnlyAdmin.addShow(showEntryDto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<String> addShow(@RequestBody ShowEntryDto showEntryDto) {
+        try{
+            String response = showServiceOnlyAdmin.addShow(showEntryDto);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch(ShowAlreadyExistsException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CREATED);
+        }
     }
 
     /*
@@ -27,8 +32,8 @@ public class ShowControllerForAdmin {
             "showDate" : "2023-02-19",
             "showTime": "16:00:00.000",
             "showType" : "_2D",
-            "movieId" : 1,
-            "theaterId" : 1,
+            "movieName" : "Inception",
+            "theaterName" : "PVR",
             "classicSeatPrice" : 25,
             "premiumSeatPrice" : 35
         }

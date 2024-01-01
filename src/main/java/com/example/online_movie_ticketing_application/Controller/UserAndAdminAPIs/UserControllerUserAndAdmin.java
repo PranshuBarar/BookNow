@@ -1,7 +1,7 @@
 package com.example.online_movie_ticketing_application.Controller.UserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.LoggedInUsers.UserServiceUserAndAdmin;
+import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserServiceUserAndAdmin;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserControllerUserAndAdmin {
 
     @Autowired
     HttpServletRequest httpServletRequest;

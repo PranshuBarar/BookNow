@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -23,14 +24,14 @@ public class ShowSeatEntity {
 
     private boolean isBooked;
 
-    private int price; //price of classic seat for that particular show for this particular seat
+    private int price;
 
     private String seatNo;
 
     @Enumerated(value = EnumType.STRING)
     private SeatType seatType;
 
-    private Date bookedAt;
+    private LocalDate bookedAt;
 
     @ManyToOne
     @JoinColumn

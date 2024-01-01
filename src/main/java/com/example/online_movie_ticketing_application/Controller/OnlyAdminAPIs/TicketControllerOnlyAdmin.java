@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/ticket")
-public class TicketControllerForAdmin {
+public class TicketControllerOnlyAdmin {
 
     @Autowired
     TicketServiceOnlyAdmin ticketServiceOnlyAdmin;

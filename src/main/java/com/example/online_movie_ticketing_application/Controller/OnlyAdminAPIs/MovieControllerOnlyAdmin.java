@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/movies")
-public class MovieControllerForAdmin {
+public class MovieControllerOnlyAdmin {
 
     @Autowired
     MovieServiceOnlyAdmin movieServiceOnlyAdmin;

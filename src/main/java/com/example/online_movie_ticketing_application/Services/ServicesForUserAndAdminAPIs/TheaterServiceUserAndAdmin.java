@@ -30,7 +30,7 @@ public class TheaterServiceUserAndAdmin {
             for(TheaterEntity theaterEntity : theaterEntityList){
                 String location = theaterEntity.getLocation();
                 if(!theaterWithUniqueLocations.containsKey(location)){
-                    String name = theaterEntity.getName();
+                    String name = theaterEntity.getTheaterName();
                     theaterWithUniqueLocations.put(location,name);
                 }
             }

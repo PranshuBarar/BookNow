@@ -25,8 +25,7 @@ public class WebSecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-//                .authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/home","/users/add","/admin/users/get-all-users","/api-docs/**","/swagger-ui-custom.html").permitAll().anyRequest().authenticated())
-                .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll())
+                .authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/home","/users/add","/admin/users/get-all-users").permitAll().anyRequest().authenticated())
                 .formLogin((form) -> form.loginPage("/login").permitAll())
                 .logout((logout) -> logout
                         .permitAll()
@@ -38,7 +37,6 @@ public class WebSecurityConfig  {
                         }))
                 .cors().and().csrf().disable()
                 .sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).sessionRegistry(sessionRegistry());
-
         return http.build();
     }
 

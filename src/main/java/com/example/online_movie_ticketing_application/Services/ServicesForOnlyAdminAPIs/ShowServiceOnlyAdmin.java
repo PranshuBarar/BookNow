@@ -1,6 +1,7 @@
 package com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.ShowConvertors;
+import com.example.online_movie_ticketing_application.CustomExceptions.ShowAlreadyExistsException;
 import com.example.online_movie_ticketing_application.Entities.*;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeEntryDto;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
@@ -29,41 +30,41 @@ public class ShowServiceOnlyAdmin {
     ShowRepository showRepository;
 
 
-    public String addShow(ShowEntryDto showEntryDto){
+    public String addShow(ShowEntryDto showEntryDto) throws ShowAlreadyExistsException {
 
-        int movieId = showEntryDto.getMovieId();
-        int theaterId = showEntryDto.getTheaterId();
+        String movieName = showEntryDto.getMovieName();
+        String theaterName = showEntryDto.getTheaterName();
 
-        MovieEntity movieEntity = movieRepository.findById(movieId).get();
-        TheaterEntity theaterEntity = theaterRepository.findById(theaterId).get();
+        MovieEntity movieEntity = movieRepository.findByMovieName(movieName);
+        TheaterEntity theaterEntity = theaterRepository.findByTheaterName(theaterName);
 
-        long showExists = showRepository.countByTheaterEntityIdAndShowDateAndShowTime(showEntryDto.getTheaterId(),
+        boolean showExists = showRepository.existsByTheaterEntityIdAndShowDateAndShowTime(movieEntity.getId(),
                 showEntryDto.getShowDate(), showEntryDto.getShowTime());
-        if(showExists >= 1){
-            return "Show already scheduled at given date, time and theater";
+        if(showExists){
+            throw new ShowAlreadyExistsException();
         }
 
         //1. converting to entity
         ShowEntity showEntity = ShowConvertors.convertEntrytoEntity(showEntryDto);
 
-
         //2. setting the attributes of foreign key
         showEntity.setMovieEntity(movieEntity);
         showEntity.setTheaterEntity(theaterEntity);
 
-        //Pending attributes :- List of showSeatEntity
+        //==================================================
+        //Attributes which are still pending :- List of showSeatEntity
 
         List<ShowSeatEntity> showSeatEntityList = createShowSeatEntity(showEntryDto, showEntity);
-
         showEntity.setShowSeatEntityList(showSeatEntityList);
 
-        //Now we also need to update the parent entities and parents of this
-        //showEntity are movieEntity and theatreEntity
-        //fetching the showEntity list of the given
-        //movieEntity and then after adding this showEntity also to the same list and saving the parent afterward
+
+        /*
+        => Now we also need to update the parent entities
+        => Parents of this showEntity are movieEntity and theatreEntity
+        => Fetching the showEntity list of the given movieEntity and then after adding this showEntity also to the same list and saving the parent afterward
+        */
 
         ShowEntity updatedShowEntity = showRepository.save(showEntity);
-
         List<ShowEntity> showEntityListFromMovie = movieEntity.getShowEntityList();
         showEntityListFromMovie.add(updatedShowEntity);
         movieRepository.save(movieEntity);
@@ -90,29 +91,30 @@ public class ShowServiceOnlyAdmin {
         * */
 
         TheaterEntity theaterEntity = showEntity.getTheaterEntity();
-
         List<TheaterSeatEntity> theaterSeatEntityList = theaterEntity.getTheaterSeatEntityList();
-
         List<ShowSeatEntity> showSeatEntityList = new ArrayList<>();
-
         for(TheaterSeatEntity theaterSeatEntity : theaterSeatEntityList){
-            ShowSeatEntity showSeatEntity = new ShowSeatEntity();
-            showSeatEntity.setSeatNo(theaterSeatEntity.getSeatNo());
-            showSeatEntity.setSeatType(theaterSeatEntity.getSeatType());
-
-            if(theaterSeatEntity.getSeatType().equals(SeatType.CLASSIC)){
-                showSeatEntity.setPrice(showEntryDto.getClassicSeatPrice());
-            }
-            else {
-                showSeatEntity.setPrice(showEntryDto.getPremiumSeatPrice());
-            }
-
-            showSeatEntity.setBooked(false);
-            showSeatEntity.setShowEntity(showEntity); //Setting foreign key
-
+            ShowSeatEntity showSeatEntity = getShowSeatEntity(showEntryDto, showEntity, theaterSeatEntity);
             showSeatEntityList.add(showSeatEntity);
         }
         return showSeatEntityList;
+    }
+
+    private static ShowSeatEntity getShowSeatEntity(ShowEntryDto showEntryDto, ShowEntity showEntity, TheaterSeatEntity theaterSeatEntity) {
+        ShowSeatEntity showSeatEntity = new ShowSeatEntity();
+        showSeatEntity.setSeatNo(theaterSeatEntity.getSeatNo());
+        showSeatEntity.setSeatType(theaterSeatEntity.getSeatType());
+
+        if(theaterSeatEntity.getSeatType().equals(SeatType.CLASSIC)){
+            showSeatEntity.setPrice(showEntryDto.getClassicSeatPrice());
+        }
+        else {
+            showSeatEntity.setPrice(showEntryDto.getPremiumSeatPrice());
+        }
+
+        showSeatEntity.setBooked(false);
+        showSeatEntity.setShowEntity(showEntity); //Setting foreign key
+        return showSeatEntity;
     }
 
     public ShowCancellationResponse cancelShow(ShowDateAndTimeEntryDto showDateAndTimeEntryDto) throws Exception {
@@ -120,7 +122,7 @@ public class ShowServiceOnlyAdmin {
         LocalDate showDate = showDateAndTimeEntryDto.getShowDate();
         LocalTime showTime = showDateAndTimeEntryDto.getShowTime();
         try{
-            TheaterEntity theaterEntity = theaterRepository.findByName(theaterName);
+            TheaterEntity theaterEntity = theaterRepository.findByTheaterName(theaterName);
             List<ShowEntity> showEntityList = theaterEntity.getShowEntityList();
             for(ShowEntity showEntity : showEntityList){
                 if(showEntity.getShowDate() == showDate && showEntity.getShowTime() == showTime){
@@ -134,7 +136,6 @@ public class ShowServiceOnlyAdmin {
                 }
             }
             return ShowCancellationResponse.SHOW_NOT_FOUND;
-
         } catch(Exception e){
             throw new Exception("Theater not found");
         }

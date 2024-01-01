@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.LoggedInUsers;
+package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
 
 
 import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
@@ -88,10 +88,6 @@ public class UserServiceUserAndAdmin {
         userEntity.setAddress(updatedAddress);
         userRepository.save(userEntity);
         return "User address updated successfully";
-    }
-
-    public List<UserEntity> getAllUsers(){
-        return userRepository.findAll();
     }
 
 

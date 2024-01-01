@@ -34,10 +34,10 @@ public class ShowEntity {
     private ShowType showType;
 
     @CreationTimestamp
-    private Date createdOn;
+    private LocalDate createdOn;
 
     @UpdateTimestamp
-    private Date updatedOn;
+    private LocalDate updatedOn;
 
     //This is child wrt to theater and movie both
 

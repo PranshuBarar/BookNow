@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/movies")
-public class MovieController {
+public class MovieControllerUserAndAdmin {
 
     @Autowired
     MovieServiceUserAndAdmin movieServiceUserAndAdmin;
@@ -22,12 +22,6 @@ public class MovieController {
     @GetMapping("/test") //http://localhost:8080/movies/test
     public ResponseEntity<String> test(){
         String response = "hello how are you test?";
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping("/hello") //http://localhost:8080/movies/hello
-    public ResponseEntity<String> hello(){
-        String response = "hello how are you?";
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 

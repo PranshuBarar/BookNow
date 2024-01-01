@@ -33,8 +33,8 @@ public class MovieServiceOnlyAdmin {
 
     @Transactional
     public String removeMovie(String movieName) {
-        int movieEntity = movieRepository.deleteByMovieName(movieName);
-        if(movieEntity>0){
+        int deletionResponse = movieRepository.deleteByMovieName(movieName);
+        if(deletionResponse>0){
             return "Movie deleted successfully";
         }
         else {
