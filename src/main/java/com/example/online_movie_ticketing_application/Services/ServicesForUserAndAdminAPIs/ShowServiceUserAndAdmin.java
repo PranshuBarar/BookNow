@@ -40,7 +40,7 @@ public class ShowServiceUserAndAdmin {
         }
         int theaterId = theaterEntity.getId();
 
-        ShowEntity showEntity = showRepository.findByTheaterIdAndShowDateAndShowTime(showDate, showTime, theaterId);
+        ShowEntity showEntity = showRepository.findByTheaterEntityIdAndShowDateAndShowTime(showDate, showTime, theaterId);
         if(showEntity == null){
             throw new EntityNotFoundException("Show not found");
         }

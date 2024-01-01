@@ -2,6 +2,7 @@ package com.example.online_movie_ticketing_application.Entities;
 
 import com.example.online_movie_ticketing_application.Enums.Genre;
 import com.example.online_movie_ticketing_application.Enums.Language;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class MovieEntity {
     private Genre genre;
 
     @OneToMany(mappedBy = "movieEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ShowEntity> showEntityList = new ArrayList<>();
 
 }

@@ -12,4 +12,5 @@ public class AvailableSeatsResponseDto {
     String seatNo;
     SeatType seatType;
     int price;
+    boolean isBooked;
 }

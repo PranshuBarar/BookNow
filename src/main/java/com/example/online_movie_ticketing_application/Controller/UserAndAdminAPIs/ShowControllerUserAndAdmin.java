@@ -29,4 +29,12 @@ public class ShowControllerUserAndAdmin {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    /*
+      {
+        "theaterName": "PVR",
+        "showDate": "2023-02-19",
+        "showTime": "16:00:00.000"
+      }
+    */
 }

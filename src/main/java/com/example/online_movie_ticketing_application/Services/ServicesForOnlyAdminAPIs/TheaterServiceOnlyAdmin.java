@@ -35,7 +35,7 @@ public class TheaterServiceOnlyAdmin {
             throw new Exception("Name and location should be valid");
         }
 
-        boolean theaterExists = theaterRepository.existsByName(theaterEntryDto.getName());
+        boolean theaterExists = theaterRepository.existsByTheaterName(theaterEntryDto.getName());
         if(theaterExists){
             return "Theater already exists";
         }
@@ -83,7 +83,7 @@ public class TheaterServiceOnlyAdmin {
 
     @Transactional
     public String removeTheater(String theaterName) throws Exception {
-        int theaterRemoveStatus = theaterRepository.deleteByName(theaterName);
+        int theaterRemoveStatus = theaterRepository.deleteByTheaterName(theaterName);
         if(theaterRemoveStatus == 0){
             throw new Exception("Theater not found");
         } else {

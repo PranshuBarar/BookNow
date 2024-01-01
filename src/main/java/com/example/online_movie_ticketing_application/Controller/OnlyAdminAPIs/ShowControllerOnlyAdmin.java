@@ -16,7 +16,7 @@ public class ShowControllerOnlyAdmin {
     @Autowired
     ShowServiceOnlyAdmin showServiceOnlyAdmin;
 
-    @PostMapping("/add") //http://localhost:8080/show/add
+    @PostMapping("/add") //http://localhost:8080/admin/show/add
     public ResponseEntity<String> addShow(@RequestBody ShowEntryDto showEntryDto) {
         try{
             String response = showServiceOnlyAdmin.addShow(showEntryDto);

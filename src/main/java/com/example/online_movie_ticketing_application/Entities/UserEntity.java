@@ -1,5 +1,6 @@
 package com.example.online_movie_ticketing_application.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,5 +35,6 @@ public class UserEntity {
     private String password;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<TicketEntity> ticketEntityList = new ArrayList<>();
 }

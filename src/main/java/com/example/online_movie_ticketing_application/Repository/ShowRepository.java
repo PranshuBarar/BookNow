@@ -12,6 +12,6 @@ import java.time.LocalTime;
 public interface ShowRepository extends JpaRepository<ShowEntity, Integer> {
     boolean existsByTheaterEntityIdAndShowDateAndShowTime(int theater_entity_id, LocalDate showDate, LocalTime showTime);
 
-    @Query(value = "SELECT * FROM shows where theater_entity_id = :theaterId AND show_date = :showDate AND show_time = :showTime")
-    ShowEntity findByTheaterIdAndShowDateAndShowTime(LocalDate showDate, LocalTime showTime, int theaterId);
+    @Query(value = "SELECT * FROM shows where theater_entity_id = :theaterEntityId AND show_date = :showDate AND show_time = :showTime", nativeQuery = true)
+    ShowEntity findByTheaterEntityIdAndShowDateAndShowTime(LocalDate showDate, LocalTime showTime, int theaterEntityId);
 }

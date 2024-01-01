@@ -55,7 +55,7 @@ public class TicketServiceUserAndAdmin {
         TheaterEntity theaterEntity = theaterRepository.findByTheaterName(theaterName);
         int theaterId = theaterEntity.getId();
 
-        ShowEntity showEntity = showRepository.findByTheaterIdAndShowDateAndShowTime(showDate, showTime, theaterId);
+        ShowEntity showEntity = showRepository.findByTheaterEntityIdAndShowDateAndShowTime(showDate, showTime, theaterId);
         List<ShowSeatEntity> listOfSeatsForThisShow = showEntity.getShowSeatEntityList();
 
         String bookedSeats;

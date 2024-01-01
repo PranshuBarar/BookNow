@@ -31,6 +31,8 @@ public class TheaterServiceUserAndAdmin {
                 String location = theaterEntity.getLocation();
                 if(!theaterWithUniqueLocations.containsKey(location)){
                     String name = theaterEntity.getTheaterName();
+                    System.out.println("Krishna "+ name);
+                    System.out.println(theaterEntity.getLocation());
                     theaterWithUniqueLocations.put(location,name);
                 }
             }
