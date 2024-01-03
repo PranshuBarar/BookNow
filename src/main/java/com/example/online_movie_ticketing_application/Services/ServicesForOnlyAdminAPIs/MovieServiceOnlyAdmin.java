@@ -22,11 +22,11 @@ public class MovieServiceOnlyAdmin {
     TicketRepository ticketRepository;
 
     public String addMovie(MovieEntryDto movieEntryDto){
-        MovieEntity movieEntity = MovieConvertors.convertMovieEntryDtoToEntity(movieEntryDto);
         boolean movieExists = movieRepository.existsByMovieName(movieEntryDto.getMovieName());
         if(movieExists){
             throw new EntityExistsException("Movie already Exists");
         }
+        MovieEntity movieEntity = MovieConvertors.convertMovieEntryDtoToEntity(movieEntryDto);
         movieRepository.save(movieEntity);
         return "Movie added successfully";
     }
