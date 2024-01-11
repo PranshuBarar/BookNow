@@ -6,6 +6,7 @@ import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
 import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
 import com.example.online_movie_ticketing_application.ResponseDto.AvailableSeatsResponseDto;
 import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.ShowService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/show")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ShowController {
     @Autowired
     ShowService showService;

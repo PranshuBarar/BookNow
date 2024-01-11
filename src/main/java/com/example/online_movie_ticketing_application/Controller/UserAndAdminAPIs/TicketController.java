@@ -4,6 +4,7 @@ import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.TicketEntryDto;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.TicketService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tickets")
+@SecurityRequirement(name = "Bearer Authentication")
 public class TicketController {
     @Autowired
     TicketService ticketService;

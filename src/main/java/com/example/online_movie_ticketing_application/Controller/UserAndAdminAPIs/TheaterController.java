@@ -2,6 +2,7 @@ package com.example.online_movie_ticketing_application.Controller.UserAndAdminAP
 
 import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
 import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.TheaterService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/theater")
+@SecurityRequirement(name = "Bearer Authentication")
 public class TheaterController {
     @Autowired
     TheaterService theaterService;

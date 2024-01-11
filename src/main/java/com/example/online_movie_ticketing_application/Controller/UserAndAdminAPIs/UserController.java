@@ -3,6 +3,7 @@ package com.example.online_movie_ticketing_application.Controller.UserAndAdminAP
 import com.example.online_movie_ticketing_application.Entities.UserEntity;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
 import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
 
     @Autowired

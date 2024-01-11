@@ -5,6 +5,7 @@ import com.example.online_movie_ticketing_application.Entities.MovieEntity;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
 import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
 import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.MovieService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/movies")
+@SecurityRequirement(name = "Bearer Authentication")
 public class MovieController {
 
     @Autowired
