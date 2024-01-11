@@ -11,12 +11,9 @@ import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntr
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.WebSecurityConfig.CurrentSessionUserDetails;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 @Service
-public class UserServiceUserAndAdmin {
+public class UserService {
     @Autowired
     UserRepository userRepository;
 
@@ -33,7 +30,7 @@ public class UserServiceUserAndAdmin {
 
     public String registerUser(UserRegisterEntryDto userRegisterEntryDto) {
         UserEntity userEntity = UserConvertor.convertDtoToEntity(userRegisterEntryDto);
-        boolean alreadyExists = userRepository.existsByEmail(userRegisterEntryDto.getEmail());
+        boolean alreadyExists = userRepository.existsByUserEmail(userRegisterEntryDto.getEmail());
         if(alreadyExists){
             return "User already exists";
         }
@@ -72,7 +69,7 @@ public class UserServiceUserAndAdmin {
         return "User deleted successfully";
     }
 
-    public List<TicketDetailsResponseDto> allTickets() throws Exception{
+    public List<TicketDetailsResponseDto> allTicketsOfCurrentUser() throws Exception{
         UserEntity currentUserEntity = getCurrentUserEntity();
         List<TicketEntity> ticketEntityList = currentUserEntity.getTicketEntityList();
         List<TicketDetailsResponseDto> ticketDetailsResponseDtoList = new ArrayList<>();
@@ -99,7 +96,7 @@ public class UserServiceUserAndAdmin {
     These are not exposed to the Controller class*/
 
     private UserEntity getCurrentUserEntity(){
-        int currentUserId = getCurrentUserId();
+        int currentUserId = FetchAuthenticatedUserDetails.getCurrentUserId();
         Optional<UserEntity> optionalUserEntity = userRepository.findById(currentUserId);
         if(optionalUserEntity.isPresent()){
             return optionalUserEntity.get();
@@ -107,21 +104,9 @@ public class UserServiceUserAndAdmin {
             throw new EntityNotFoundException("No entity with given userId");
         }
     }
-    private int getCurrentUserId(){
-        CurrentSessionUserDetails currentSessionUserDetails = getCurrentUser();
-        if(currentSessionUserDetails != null){
-            return currentSessionUserDetails.getId();
-        } else{
-            throw new RuntimeException("\"currentSessionUserDetails\" not found");
-        }
+
+    public List<UserEntity> getAllUsers(){
+        return userRepository.findAll();
     }
-    private CurrentSessionUserDetails getCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.isAuthenticated()){
-            if(authentication.getPrincipal() instanceof CurrentSessionUserDetails){
-                return (CurrentSessionUserDetails)  authentication.getPrincipal();
-            }
-        }
-        return null;
-    }
+
 }

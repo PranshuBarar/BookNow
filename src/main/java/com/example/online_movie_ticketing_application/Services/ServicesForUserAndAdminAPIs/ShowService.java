@@ -1,25 +1,30 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.ShowConvertors;
 import com.example.online_movie_ticketing_application.CustomExceptions.ShowAlreadyExistsException;
 import com.example.online_movie_ticketing_application.Entities.*;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeEntryDto;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
+import com.example.online_movie_ticketing_application.Enums.Role;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
+import com.example.online_movie_ticketing_application.ResponseDto.AvailableSeatsResponseDto;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class ShowServiceOnlyAdmin {
+public class ShowService {
     @Autowired
     MovieRepository movieRepository;
 
@@ -29,8 +34,38 @@ public class ShowServiceOnlyAdmin {
     @Autowired
     ShowRepository showRepository;
 
+    public List<AvailableSeatsResponseDto> getAvailableSeats(ShowDateAndTimeEntryDto showDateAndTimeEntryDto) {
+        LocalDate showDate = showDateAndTimeEntryDto.getShowDate();
+        LocalTime showTime = showDateAndTimeEntryDto.getShowTime();
+        String theaterName = showDateAndTimeEntryDto.getTheaterName();
+
+        TheaterEntity theaterEntity = theaterRepository.findByTheaterName(theaterName);
+        if(theaterEntity == null){
+            throw new EntityNotFoundException("Theater Not found");
+        }
+        int theaterId = theaterEntity.getId();
+
+        ShowEntity showEntity = showRepository.findByTheaterEntityIdAndShowDateAndShowTime(showDate, showTime, theaterId);
+        if(showEntity == null){
+            throw new EntityNotFoundException("Show not found");
+        }
+
+        return currentlyAvailableSeats(showEntity);
+    }
+
+
+    private List<AvailableSeatsResponseDto> currentlyAvailableSeats(ShowEntity showEntity) {
+        return showEntity
+                .getShowSeatEntityList()
+                .stream()
+                .filter(showSeatEntity -> !showSeatEntity.isBooked())
+                .map(ShowConvertors::availableSeatsResponseDtoConvertor)
+                .toList();
+    }
+
 
     public String addShow(ShowEntryDto showEntryDto) throws ShowAlreadyExistsException {
+
 
         String movieName = showEntryDto.getMovieName();
         String theaterName = showEntryDto.getTheaterName();
@@ -77,18 +112,19 @@ public class ShowServiceOnlyAdmin {
     }
 
     private List<ShowSeatEntity> createShowSeatEntity(ShowEntryDto showEntryDto, ShowEntity showEntity) {
+
         /*Now the goal is to create the showSeatEntity
-        * and for that we need to set all the attributes of showSeatEntity
-        *
-        * Following are the attributes of showSeatEntity :-
-        * isBooked
-        * price
-        * seatNo
-        * seatType
-        * bookedAt
-        * showEntity
-        *
-        * */
+         * and for that we need to set all the attributes of showSeatEntity
+         *
+         * Following are the attributes of showSeatEntity :-
+         * isBooked
+         * price
+         * seatNo
+         * seatType
+         * bookedAt
+         * showEntity
+         *
+         * */
 
         TheaterEntity theaterEntity = showEntity.getTheaterEntity();
         List<TheaterSeatEntity> theaterSeatEntityList = theaterEntity.getTheaterSeatEntityList();

@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForOnlyAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.Convertors.TheaterConvertors;
 import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
@@ -7,15 +7,15 @@ import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterSeatRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
-public class TheaterServiceOnlyAdmin {
+public class TheaterService {
 
     @Autowired
     TheaterSeatRepository theaterSeatRepository;
@@ -23,12 +23,34 @@ public class TheaterServiceOnlyAdmin {
     @Autowired
     TheaterRepository theaterRepository;
 
+    public Map<String,String> theaterWithUniqueLocations(){
+        Map<String,String> theaterWithUniqueLocations = new HashMap<>();
+        try{
+            List<TheaterEntity> theaterEntityList = theaterRepository.findAll();
+            for(TheaterEntity theaterEntity : theaterEntityList){
+                String location = theaterEntity.getLocation();
+                if(!theaterWithUniqueLocations.containsKey(location)){
+                    String name = theaterEntity.getTheaterName();
+                    System.out.println("Krishna "+ name);
+                    System.out.println(theaterEntity.getLocation());
+                    theaterWithUniqueLocations.put(location,name);
+                }
+            }
+            return theaterWithUniqueLocations;
+        }
+        catch(Exception e){
+            throw new EntityNotFoundException("No theater found");
+        }
+
+    }
+
+
     public String addTheater(TheaterEntryDto theaterEntryDto) throws Exception{
         /*
-        * 1. create theaterSeats
-        * 2. I need to save theater : I need theaterEntity
-        * 3. Always set the attributes before saving
-        * */
+         * 1. create theaterSeats
+         * 2. I need to save theater : I need theaterEntity
+         * 3. Always set the attributes before saving
+         * */
 
         //Some validations required here :-
         if(theaterEntryDto.getName() == null || theaterEntryDto.getLocation() == null){

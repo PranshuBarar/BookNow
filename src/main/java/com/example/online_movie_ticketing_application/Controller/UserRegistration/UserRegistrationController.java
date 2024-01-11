@@ -1,7 +1,7 @@
 package com.example.online_movie_ticketing_application.Controller.UserRegistration;
 
 import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntryDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserServiceUserAndAdmin;
+import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserRegistrationController {
     @Autowired
-    UserServiceUserAndAdmin userServiceUserAndAdmin;
+    UserService userService;
 
     @PostMapping("/add") //http://localhost:8080/users/add
     public ResponseEntity<String> registerUser(@RequestBody UserRegisterEntryDto userRegisterEntryDto) {
         try {
-            String response = userServiceUserAndAdmin.registerUser(userRegisterEntryDto);
+            String response = userService.registerUser(userRegisterEntryDto);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

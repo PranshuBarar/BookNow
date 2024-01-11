@@ -1,22 +1,28 @@
-package com.example.online_movie_ticketing_application.WebSecurityConfig;
+package com.example.online_movie_ticketing_application.config;
 
 import com.example.online_movie_ticketing_application.Entities.UserEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class CurrentSessionUserDetails implements UserDetails {
+@Setter
+@Getter
+public class CustomUserDetails implements UserDetails {
 
     private final UserEntity userEntity;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-    public CurrentSessionUserDetails(UserEntity userEntity) {
+    public CustomUserDetails(UserEntity userEntity, Collection<? extends GrantedAuthority> authorities) {
         this.userEntity = userEntity;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -26,27 +32,7 @@ public class CurrentSessionUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEntity.getName();
-    }
-
-    public int getId(){
-        return userEntity.getId();
-    }
-
-    public String getAddress(){
-        return userEntity.getAddress();
-    }
-
-    public int age(){
-        return  userEntity.getAge();
-    }
-
-    public String mobNo(){
-        return userEntity.getMobNo();
-    }
-
-    public String email(){
-        return userEntity.getEmail();
+        return userEntity.getUserEmail();
     }
 
     @Override
@@ -68,5 +54,4 @@ public class CurrentSessionUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

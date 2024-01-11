@@ -10,10 +10,11 @@ public class UserConvertor {
         return UserEntity.builder()
                 .age(userRegisterEntryDto.getAge())
                 .address(userRegisterEntryDto.getAddress())
-                .email(userRegisterEntryDto.getEmail())
+                .userEmail(userRegisterEntryDto.getEmail())
                 .mobNo(userRegisterEntryDto.getMobNo())
-                .name(userRegisterEntryDto.getName())
+                .username(userRegisterEntryDto.getName())
                 .password(userRegisterEntryDto.getPassword())
+                .role(userRegisterEntryDto.getRole())
                 .build();
     }
 }

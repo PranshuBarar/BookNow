@@ -3,11 +3,9 @@ package com.example.online_movie_ticketing_application.Services.ServicesForUserA
 import com.example.online_movie_ticketing_application.Convertors.MovieConvertors;
 import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeFirstException;
 import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeSecondException;
+import com.example.online_movie_ticketing_application.Entities.*;
+import com.example.online_movie_ticketing_application.Enums.Role;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieAndItsShowsResponseDto;
-import com.example.online_movie_ticketing_application.Entities.MovieEntity;
-import com.example.online_movie_ticketing_application.Entities.ShowEntity;
-import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
-import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.MovieEntryDto;
 import com.example.online_movie_ticketing_application.Enums.TicketStatus;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class MovieServiceUserAndAdmin {
+public class MovieService {
 
     @Autowired
     MovieRepository movieRepository;
@@ -137,6 +135,27 @@ public class MovieServiceUserAndAdmin {
         }
         else {
             return movieEntityList;
+        }
+    }
+
+    public String addMovie(MovieEntryDto movieEntryDto){
+        boolean movieExists = movieRepository.existsByMovieName(movieEntryDto.getMovieName());
+        if(movieExists){
+            throw new EntityExistsException("Movie already Exists");
+        }
+        MovieEntity movieEntity = MovieConvertors.convertMovieEntryDtoToEntity(movieEntryDto);
+        movieRepository.save(movieEntity);
+        return "Movie added successfully";
+    }
+
+    @Transactional
+    public String removeMovie(String movieName) {
+        int deletionResponse = movieRepository.deleteByMovieName(movieName);
+        if(deletionResponse>0){
+            return "Movie deleted successfully";
+        }
+        else {
+            throw new EntityNotFoundException("No movie with this name");
         }
     }
 }

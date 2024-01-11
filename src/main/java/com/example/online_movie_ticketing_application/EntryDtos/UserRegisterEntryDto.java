@@ -1,5 +1,6 @@
 package com.example.online_movie_ticketing_application.EntryDtos;
 
+import com.example.online_movie_ticketing_application.Enums.Role;
 import lombok.Data;
 
 @Data
@@ -16,4 +17,6 @@ public class UserRegisterEntryDto {
     private String address;
 
     private String password;
+
+    private Role role;
 }

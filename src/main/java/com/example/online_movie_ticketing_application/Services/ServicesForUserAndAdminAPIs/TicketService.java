@@ -9,18 +9,13 @@ import com.example.online_movie_ticketing_application.Repository.TheaterReposito
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.WebSecurityConfig.CurrentSessionUserDetails;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TicketServiceUserAndAdmin {
+public class TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
@@ -43,8 +38,6 @@ public class TicketServiceUserAndAdmin {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    SessionRegistry sessionRegistry;
 
     public String bookTicket(TicketEntryDto ticketEntryDto) throws Exception {
         LocalDate showDate = ticketEntryDto.getShowDate();
@@ -70,7 +63,7 @@ public class TicketServiceUserAndAdmin {
 
         //=======================================================
         /*Extracting userId from the current authenticated user session*/
-        int userId = getUserId();
+        int userId = FetchAuthenticatedUserDetails.getCurrentUserId();
         //=======================================================
         /*Ticket generation:
         * -> We will create a new ticketEntity object
@@ -100,16 +93,6 @@ public class TicketServiceUserAndAdmin {
         return "Tickets Booked : " + bookedSeats;
     }
 
-    private static int getUserId() throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        int userId;
-        if(authentication != null && authentication.getPrincipal() instanceof CurrentSessionUserDetails){
-            userId = ((CurrentSessionUserDetails) authentication.getPrincipal()).getId();
-        } else {
-            throw new Exception();
-        }
-        return userId;
-    }
 
     private Pair<String,Integer> bookTheSeats(List<String> requestedSeats,
                                               List<ShowSeatEntity> listOfSeatsForThisShow)
@@ -182,5 +165,11 @@ public class TicketServiceUserAndAdmin {
         } else {
             throw new EntityNotFoundException("Ticket with UUID: " + ticketUUID + " not found");
         }
+    }
+
+
+    public List<TicketEntity> getTicketsBookedByUser(String userEmail){
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail);
+        return userEntity.getTicketEntityList();
     }
 }
