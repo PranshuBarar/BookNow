@@ -53,7 +53,7 @@ Make sure you have the following tools installed on your machine:
 - You are most welcome to explore other available endpoints and functionalities as documented in the project.
 
 
-This is a Spring Boot application with around 19 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
+This is a Spring Boot application with around 26 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 # Design of the Application
 ![img.png](img.png)
 
