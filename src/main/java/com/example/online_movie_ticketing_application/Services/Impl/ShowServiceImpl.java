@@ -1,30 +1,28 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 import com.example.online_movie_ticketing_application.Convertors.ShowConvertors;
 import com.example.online_movie_ticketing_application.CustomExceptions.ShowAlreadyExistsException;
 import com.example.online_movie_ticketing_application.Entities.*;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeEntryDto;
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
-import com.example.online_movie_ticketing_application.Enums.Role;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
 import com.example.online_movie_ticketing_application.Repository.MovieRepository;
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.AvailableSeatsResponseDto;
+import com.example.online_movie_ticketing_application.Services.ShowService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
-public class ShowService {
+public class ShowServiceImpl implements ShowService {
     @Autowired
     MovieRepository movieRepository;
 

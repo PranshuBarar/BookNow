@@ -1,9 +1,61 @@
 # BOOKNOW - An online movie ticketing application 
-## (This repository contains the backend code for the BOOKNOW - An online movie ticketing application)
+## This repository contains the backend code for the BOOKNOW - An online movie ticketing application
+
+## Features of this Application
+**Secure Endpoints:** <br> *Utilize Spring Security for robust endpoint security, protecting against unauthorized access.*
+
+**JWT Authentication:** <br> *Implement JWT-based authentication management for secure user access.*
+_________________________________________________
+## Instructions for Running this Project on your Computer
+_________________________________________________
+
+## Prerequisites
+
+Make sure you have the following tools installed on your machine:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [JDK 17 or higher](https://www.oracle.com/java/technologies/downloads/#java17)
+- [Maven 3.2.0](https://maven.apache.org/install.html)
+
+## How to Run
+
+1. Clone the repository to your local machine:
+
+    ```bash
+    git clone https://github.com/PranshuBarar/BOOKNOW.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd <respository_name_here>
+    ```
+
+3. Run Docker Containers of MySQL and Spring Boot Application:
+
+   ```bash
+    docker build -t book-now-application .
+    ```
+    
+   ```bash
+    docker compose up
+    ```
+
+4. Access the application at [http://localhost:8080/springboot3/swagger-ui/index.html#/](http://localhost:8080/springboot3/swagger-ui/index.html#/)
+
+## Additional Notes
+
+- If you encounter any issues, ensure that ports 8080 and 3306 are available on your machine.
+
+- Customize your application configuration in the `application.yml` files if you require doing so.
+
+- You are most welcome to explore other available endpoints and functionalities as documented in the project.
+
 
 This is a Spring Boot application with around 19 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 # Design of the Application
-![Screenshot-from-2023-12-23-17-29 (1) (1)](https://github.com/PranshuBarar/BookNow/assets/117909106/fe3578bd-35aa-440d-8cff-76a003d15f63)
+
 
 
 
@@ -104,11 +156,17 @@ This Movie Booking application can do the following tasks :
 ## => Theaters with unique locations :
 ![image](https://user-images.githubusercontent.com/117909106/225535437-931bfa30-a86e-449d-b0e1-028726ce9f5d.png)
 
-# Tech Stack 
+
+_________________________________________________
+# Tech Stack
+_________________________________________________
 This project uses the following tech stack:
-* Spring Boot
-* Hibernate 
-* MySQL WorkBench
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [Spring Security](https://spring.io/projects/spring-security/)
+* [Hibernate](https://hibernate.org/)
+* [MySQL](https://www.mysql.com/) (For Database)
+* [OpenAPI (for API Documentation)](https://www.openapis.org/)
+* [Docker for Containerization](https://www.docker.com/)
 
 ## Contact
 For questions, feedback, or support, please contact the project owner at pranshubarar1851996@gmail.com.

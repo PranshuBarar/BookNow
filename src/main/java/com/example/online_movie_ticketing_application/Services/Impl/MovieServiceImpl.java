@@ -1,10 +1,9 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 import com.example.online_movie_ticketing_application.Convertors.MovieConvertors;
-import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeFirstException;
-import com.example.online_movie_ticketing_application.CustomExceptions.ShowTimeSecondException;
+import com.example.online_movie_ticketing_application.CustomExceptions.NoShowException;
+import com.example.online_movie_ticketing_application.CustomExceptions.NoMovieException;
 import com.example.online_movie_ticketing_application.Entities.*;
-import com.example.online_movie_ticketing_application.Enums.Role;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieAndItsShowsResponseDto;
 import com.example.online_movie_ticketing_application.EntryDtos.MovieEntryDto;
 import com.example.online_movie_ticketing_application.Enums.TicketStatus;
@@ -12,6 +11,7 @@ import com.example.online_movie_ticketing_application.Repository.MovieRepository
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
 import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
+import com.example.online_movie_ticketing_application.Services.MovieService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class MovieService {
+public class MovieServiceImpl implements MovieService {
 
     @Autowired
     MovieRepository movieRepository;
@@ -101,7 +101,7 @@ public class MovieService {
         return new MovieAndItsShowsResponseDto(movieName,numberOfShows);
     }
 
-    public List<ShowDateAndTimeResponseDto> getShowTime(String movieName, String theaterName) throws Exception {
+    public List<ShowDateAndTimeResponseDto> getShowTime(String movieName, String theaterName) throws NoShowException, NoMovieException {
         List<ShowDateAndTimeResponseDto> pairList = new ArrayList<>();
         Optional<MovieEntity> optionalMovieEntity = Optional.ofNullable(movieRepository.findByMovieName(movieName));
         if(optionalMovieEntity.isPresent()){
@@ -117,14 +117,14 @@ public class MovieService {
                 }
             }
             if(pairList.isEmpty()){
-                throw new ShowTimeFirstException("There is no show of " + movieName + " running in " + theaterName);
+                throw new NoShowException("There is no show of " + movieName + " running in " + theaterName);
             }
             else {
                 return pairList;
             }
         }
         else {
-            throw new ShowTimeSecondException("There is no movie named " + movieName);
+            throw new NoMovieException("There is no movie named " + movieName);
         }
     }
 

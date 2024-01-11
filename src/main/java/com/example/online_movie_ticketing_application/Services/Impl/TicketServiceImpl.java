@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
 import com.example.online_movie_ticketing_application.Entities.*;
@@ -9,12 +9,11 @@ import com.example.online_movie_ticketing_application.Repository.TheaterReposito
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
+import com.example.online_movie_ticketing_application.Services.FetchAuthenticatedUserDetails;
+import com.example.online_movie_ticketing_application.Services.TicketService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TicketService {
+public class TicketServiceImpl implements TicketService {
 
     @Autowired
     TicketRepository ticketRepository;

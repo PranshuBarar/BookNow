@@ -4,7 +4,7 @@ import com.example.online_movie_ticketing_application.ResponseDto.MovieAndItsSho
 import com.example.online_movie_ticketing_application.Entities.MovieEntity;
 import com.example.online_movie_ticketing_application.ResponseDto.MovieCollectionResponseDto;
 import com.example.online_movie_ticketing_application.ResponseDto.ShowDateAndTimeResponseDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.MovieService;
+import com.example.online_movie_ticketing_application.Services.Impl.MovieServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MovieController {
 
     @Autowired
-    MovieService movieService;
+    MovieServiceImpl movieServiceImpl;
 
 
     @GetMapping("/test") //http://localhost:8080/movies/test
@@ -35,7 +35,7 @@ public class MovieController {
     public ResponseEntity<?> getShowTime(@RequestParam("movie-name") String movieName,
                                                            @RequestParam("theater-name") String theaterName){
         try{
-            List<ShowDateAndTimeResponseDto> pairList = movieService.getShowTime(movieName,theaterName);
+            List<ShowDateAndTimeResponseDto> pairList = movieServiceImpl.getShowTime(movieName,theaterName);
             return new ResponseEntity<>(pairList,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -45,7 +45,7 @@ public class MovieController {
     @GetMapping("/movie-with-max-shows") //http://localhost:8080/movies/movie-with-max-shows
     public ResponseEntity<?> movieWithMaxShows(){
         try{
-            MovieAndItsShowsResponseDto movieAndItsShowsResponseDto = movieService.movieWithMaxShows();
+            MovieAndItsShowsResponseDto movieAndItsShowsResponseDto = movieServiceImpl.movieWithMaxShows();
             return new ResponseEntity<>(movieAndItsShowsResponseDto,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>("No movie found", HttpStatus.NOT_FOUND);
@@ -56,7 +56,7 @@ public class MovieController {
     @GetMapping("/movie-with-max-collection") //http://localhost:8080/movies/movie-with-max-collection
     public ResponseEntity<?> movieWithMaxCollection() {
         try{
-            MovieCollectionResponseDto movieCollectionResponseDto = movieService.movieWithMaxCollection();
+            MovieCollectionResponseDto movieCollectionResponseDto = movieServiceImpl.movieWithMaxCollection();
             return new ResponseEntity<>(movieCollectionResponseDto,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>("No movie found", HttpStatus.NOT_FOUND);
@@ -66,7 +66,7 @@ public class MovieController {
     @GetMapping("/all-movies-total-collection") //http://localhost:8080/movies/all-movies-total-collection
     public ResponseEntity<?> allMoviesTotalCollection() {
         try{
-            Map<String,Integer> moviesAndTheirCollections = movieService.allMoviesTotalCollection();
+            Map<String,Integer> moviesAndTheirCollections = movieServiceImpl.allMoviesTotalCollection();
             return new ResponseEntity<>(moviesAndTheirCollections,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
@@ -77,7 +77,7 @@ public class MovieController {
     @GetMapping("/collection/{movie}") //http://localhost:8080/movies/collection/<movie>
     public ResponseEntity<?> totalCollectionOfMovie(@PathVariable("movie") String movieName){
         try{
-            int collection = movieService.totalCollectionOfMovie(movieName);
+            int collection = movieServiceImpl.totalCollectionOfMovie(movieName);
             return new ResponseEntity<>(collection,HttpStatus.FOUND);
         }
         catch(Exception e){
@@ -89,7 +89,7 @@ public class MovieController {
     @GetMapping("/allmovies") //http://localhost:8080/movies/allmovies
     public ResponseEntity<?> getAllMovies(){
         try{
-            List<MovieEntity> movieEntityList = movieService.getAllMovies();
+            List<MovieEntity> movieEntityList = movieServiceImpl.getAllMovies();
             return new ResponseEntity<>(movieEntityList,HttpStatus.ACCEPTED);
         }
         catch(Exception e){
@@ -101,7 +101,7 @@ public class MovieController {
     @PostMapping("/add") //http://localhost:8080/movies/add
     public ResponseEntity<?> addMovie(@RequestBody MovieEntryDto movieEntryDto){
         try{
-            String result = movieService.addMovie(movieEntryDto);
+            String result = movieServiceImpl.addMovie(movieEntryDto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -123,7 +123,7 @@ public class MovieController {
     @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieName=<name_here>
     public ResponseEntity<String> removeMovie(@RequestParam("movieName") String movieName) {
         try{
-            String response = movieService.removeMovie(movieName);
+            String response = movieServiceImpl.removeMovie(movieName);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch(Exception e){
             return new ResponseEntity<>("Movie with this name: \"" + movieName + "\" does not exist", HttpStatus.BAD_REQUEST);

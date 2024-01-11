@@ -5,7 +5,7 @@ import com.example.online_movie_ticketing_application.EntryDtos.ShowDateAndTimeE
 import com.example.online_movie_ticketing_application.EntryDtos.ShowEntryDto;
 import com.example.online_movie_ticketing_application.Enums.ShowCancellationResponse;
 import com.example.online_movie_ticketing_application.ResponseDto.AvailableSeatsResponseDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.ShowService;
+import com.example.online_movie_ticketing_application.Services.Impl.ShowServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +20,13 @@ import java.util.List;
 @SecurityRequirement(name = "Bearer Authentication")
 public class ShowController {
     @Autowired
-    ShowService showService;
+    ShowServiceImpl showServiceImpl;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add") //http://localhost:8080/admin/show/add
     public ResponseEntity<String> addShow(@RequestBody ShowEntryDto showEntryDto) {
         try{
-            String response = showService.addShow(showEntryDto);
+            String response = showServiceImpl.addShow(showEntryDto);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch(ShowAlreadyExistsException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CREATED);
@@ -50,7 +50,7 @@ public class ShowController {
     @DeleteMapping("/cancel") //http://localhost:8080/show/cancel?showId=<id here>
     public ResponseEntity<?> cancelShow(@RequestBody ShowDateAndTimeEntryDto showDateAndTimeEntryDto){
         try{
-            ShowCancellationResponse response = showService.cancelShow(showDateAndTimeEntryDto);
+            ShowCancellationResponse response = showServiceImpl.cancelShow(showDateAndTimeEntryDto);
             if(response.equals(ShowCancellationResponse.SHOW_IS_CANCELED_SUCCESSFULLY)){
                 //Email will be sent to the users that show has been cancelled,
                 //you will be refunded your money back
@@ -66,7 +66,7 @@ public class ShowController {
     @GetMapping("/available-seats")
     public ResponseEntity<?> getAvailableSeats(@RequestBody ShowDateAndTimeEntryDto showDateAndTimeEntryDto){
         try{
-            List<AvailableSeatsResponseDto> availableSeatsResponseDtoList= showService.getAvailableSeats(showDateAndTimeEntryDto);
+            List<AvailableSeatsResponseDto> availableSeatsResponseDtoList= showServiceImpl.getAvailableSeats(showDateAndTimeEntryDto);
             return new ResponseEntity<>(availableSeatsResponseDtoList, HttpStatus.ACCEPTED);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

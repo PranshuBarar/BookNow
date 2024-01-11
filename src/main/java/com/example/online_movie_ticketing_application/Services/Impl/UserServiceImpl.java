@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 
 import com.example.online_movie_ticketing_application.Convertors.TicketConvertor;
@@ -11,6 +11,8 @@ import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntr
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
+import com.example.online_movie_ticketing_application.Services.FetchAuthenticatedUserDetails;
+import com.example.online_movie_ticketing_application.Services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 

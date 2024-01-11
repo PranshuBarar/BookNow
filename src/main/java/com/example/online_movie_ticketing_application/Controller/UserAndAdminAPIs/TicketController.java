@@ -3,7 +3,7 @@ package com.example.online_movie_ticketing_application.Controller.UserAndAdminAP
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.TicketEntryDto;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.TicketService;
+import com.example.online_movie_ticketing_application.Services.Impl.TicketServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import java.util.List;
 @SecurityRequirement(name = "Bearer Authentication")
 public class TicketController {
     @Autowired
-    TicketService ticketService;
+    TicketServiceImpl ticketServiceImpl;
 
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getTicketsBookedByUser(@RequestParam String userEmail){
-        List<TicketEntity> ticketEntityList = ticketService.getTicketsBookedByUser(userEmail);
+        List<TicketEntity> ticketEntityList = ticketServiceImpl.getTicketsBookedByUser(userEmail);
         if(ticketEntityList.isEmpty()){
             return new ResponseEntity<>("No tickets booked by this user yet", HttpStatus.ACCEPTED);
         }
@@ -33,7 +33,7 @@ public class TicketController {
 
     @PostMapping("/booking_ticket") //http://localhost:8080/tickets/booking_ticket
     public ResponseEntity<String> bookTicket(@RequestBody TicketEntryDto ticketEntryDto) throws Exception {
-        String response = ticketService.bookTicket(ticketEntryDto);
+        String response = ticketServiceImpl.bookTicket(ticketEntryDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
@@ -51,7 +51,7 @@ public class TicketController {
     @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?ticketId=<id here>
     public ResponseEntity<?> getDetails(@RequestParam("ticketUUID") String ticketUUID){
         try{
-            TicketDetailsResponseDto ticketDetailsResponseDto = ticketService.getDetails(ticketUUID);
+            TicketDetailsResponseDto ticketDetailsResponseDto = ticketServiceImpl.getDetails(ticketUUID);
             return new ResponseEntity<>(ticketDetailsResponseDto,HttpStatus.FOUND);
         } catch(EntityNotFoundException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
@@ -62,7 +62,7 @@ public class TicketController {
     //Exception handling is requried here
     @DeleteMapping("/cancel_ticket") //http://localhost:8080/tickets/cancel_ticket?ticketId=<id here>
     public ResponseEntity<String> cancelTicket(@RequestParam("ticketId") int ticketId){
-        String response = ticketService.cancelTicket(ticketId);
+        String response = ticketServiceImpl.cancelTicket(ticketId);
         return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }
 }

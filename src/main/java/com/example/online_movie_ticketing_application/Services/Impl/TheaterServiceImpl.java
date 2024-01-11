@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 import com.example.online_movie_ticketing_application.Convertors.TheaterConvertors;
 import com.example.online_movie_ticketing_application.Entities.TheaterEntity;
@@ -7,6 +7,7 @@ import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
 import com.example.online_movie_ticketing_application.Enums.SeatType;
 import com.example.online_movie_ticketing_application.Repository.TheaterRepository;
 import com.example.online_movie_ticketing_application.Repository.TheaterSeatRepository;
+import com.example.online_movie_ticketing_application.Services.TheaterService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class TheaterService {
+public class TheaterServiceImpl implements TheaterService {
 
     @Autowired
     TheaterSeatRepository theaterSeatRepository;

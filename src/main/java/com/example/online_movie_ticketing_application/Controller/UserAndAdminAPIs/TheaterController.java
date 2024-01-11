@@ -1,7 +1,7 @@
 package com.example.online_movie_ticketing_application.Controller.UserAndAdminAPIs;
 
 import com.example.online_movie_ticketing_application.EntryDtos.TheaterEntryDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.TheaterService;
+import com.example.online_movie_ticketing_application.Services.Impl.TheaterServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,13 @@ import java.util.Map;
 @SecurityRequirement(name = "Bearer Authentication")
 public class TheaterController {
     @Autowired
-    TheaterService theaterService;
+    TheaterServiceImpl theaterServiceImpl;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add") //http://localhost:8080/theater/add
     public ResponseEntity<String> addTheater(@RequestBody TheaterEntryDto theaterEntryDto){
         try {
-            String result = theaterService.addTheater(theaterEntryDto);
+            String result = theaterServiceImpl.addTheater(theaterEntryDto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -42,7 +42,7 @@ public class TheaterController {
     @DeleteMapping("/remove") //http://localhost:8080/theater/remove?theaterId=<id here>
     public ResponseEntity<?> removeTheater(@RequestParam("theaterName") String theaterName) throws Exception {
         try{
-            String response = theaterService.removeTheater(theaterName);
+            String response = theaterServiceImpl.removeTheater(theaterName);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         }
         catch(Exception e){
@@ -53,7 +53,7 @@ public class TheaterController {
     @GetMapping("/theaters-with-unique-locations") //http://localhost:8080/theater/theaters-with-unique-locations
     public ResponseEntity<?> theatersWithUniqueLocations(){
         try{
-            Map<String,String> theatersWithUniqueLocations = theaterService.theaterWithUniqueLocations();
+            Map<String,String> theatersWithUniqueLocations = theaterServiceImpl.theaterWithUniqueLocations();
             return new ResponseEntity<>(theatersWithUniqueLocations,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);

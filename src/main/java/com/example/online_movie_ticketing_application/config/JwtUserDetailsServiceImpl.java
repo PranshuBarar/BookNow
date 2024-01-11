@@ -4,7 +4,7 @@ import com.example.online_movie_ticketing_application.Entities.UserEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntryDto;
 import com.example.online_movie_ticketing_application.Enums.Role;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserService;
+import com.example.online_movie_ticketing_application.Services.Impl.UserServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Set;
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService UserService;
+    private UserServiceImpl UserServiceImpl;
 
     @Autowired
     private UserRepository userRepository;
@@ -47,12 +47,12 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     public String saveUser(UserRegisterEntryDto userRegisterEntryDto) throws Exception {
         userRegisterEntryDto.setRole(Role.USER);
-        return UserService.registerUser(userRegisterEntryDto);
+        return UserServiceImpl.registerUser(userRegisterEntryDto);
     }
 
     public String saveAdmin(UserRegisterEntryDto userRegisterEntryDto) throws Exception {
         userRegisterEntryDto.setRole(Role.ADMIN);
-        return UserService.registerUser(userRegisterEntryDto);
+        return UserServiceImpl.registerUser(userRegisterEntryDto);
     }
 
 }

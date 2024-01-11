@@ -2,7 +2,7 @@ package com.example.online_movie_ticketing_application.Controller.UserAndAdminAP
 
 import com.example.online_movie_ticketing_application.Entities.UserEntity;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.Services.ServicesForUserAndAdminAPIs.UserService;
+import com.example.online_movie_ticketing_application.Services.Impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ public class UserController {
     HttpServletRequest httpServletRequest;
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @DeleteMapping("/remove") //http://localhost:8080/users/remove
     public ResponseEntity<String> removeUser(){
         try{
-            String response = userService.removeUser();
+            String response = userServiceImpl.removeUser();
             httpServletRequest.getSession().invalidate();
             String sessionId = httpServletRequest.getSession().getId();
             return new ResponseEntity<>(response+" (Session with Session Id: "+ sessionId +  " got invalidated)", HttpStatus.ACCEPTED);
@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<?> allTicketsOfCurrentUser(){
         //This will return all tickets booked by user till now...and this includes even cancelled tickets also
         try{
-            List<TicketDetailsResponseDto> ticketDetailsResponseDtoList = userService.allTicketsOfCurrentUser();
+            List<TicketDetailsResponseDto> ticketDetailsResponseDtoList = userServiceImpl.allTicketsOfCurrentUser();
             return new ResponseEntity<>(ticketDetailsResponseDtoList,HttpStatus.FOUND);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -51,7 +51,7 @@ public class UserController {
     @PutMapping("/update-address") //http://localhost:8080/users/update-address
     public ResponseEntity<?> updateUserAddress(@RequestBody String address){
         try{
-            String response = userService.updateUserAddress(address);
+            String response = userServiceImpl.updateUserAddress(address);
             return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -63,7 +63,7 @@ public class UserController {
     @GetMapping("/get-all-users") //http://localhost:8080/admin/users/get-all-users
     public ResponseEntity<?> getAllUsers(){
         try{
-            List<UserEntity> userEntityList = userService.getAllUsers();
+            List<UserEntity> userEntityList = userServiceImpl.getAllUsers();
             return new ResponseEntity<>(userEntityList, HttpStatus.FOUND);
         }
         catch(Exception e){
