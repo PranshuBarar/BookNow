@@ -65,6 +65,18 @@ public class UserAuthenticationController {
         }
     }
 
+    /*
+        //Copy-paste the following in postman
+        {
+            "name" : "Pranshu",
+            "age" : 25,
+            "email" : "pranshubarar1851996@gmail.com",
+            "mobNo" : "8948607977",
+            "address" : "Jhunsi, Allahabad",
+            "password" : "test12345"
+        }
+    */
+
     @Operation(summary = "Register here to explore the Application APIs")
     @PostMapping("/auth/signup/admin")
     public ResponseEntity<?> saveAdmin(@RequestBody UserRegisterEntryDto userRegisterEntryDto) throws Exception {
