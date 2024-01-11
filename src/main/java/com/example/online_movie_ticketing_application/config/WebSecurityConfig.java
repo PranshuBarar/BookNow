@@ -32,7 +32,10 @@ public class WebSecurityConfig  {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests.requestMatchers("/api/auth/login/user","/api/auth/signup/user","/swagger-ui/**","/api-docs/**").permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+                    exceptionHandling.accessDeniedHandler(jwtAuthenticationEntryPoint);
+                })
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
