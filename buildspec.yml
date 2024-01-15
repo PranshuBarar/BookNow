@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker:
+      java: corretto17
 
   pre_build:
     commands:
