@@ -11,7 +11,6 @@ import com.example.online_movie_ticketing_application.EntryDtos.UserRegisterEntr
 import com.example.online_movie_ticketing_application.Repository.ShowRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.Services.FetchAuthenticatedUserDetails;
 import com.example.online_movie_ticketing_application.Services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

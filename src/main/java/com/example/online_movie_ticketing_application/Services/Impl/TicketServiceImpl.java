@@ -9,7 +9,6 @@ import com.example.online_movie_ticketing_application.Repository.TheaterReposito
 import com.example.online_movie_ticketing_application.Repository.TicketRepository;
 import com.example.online_movie_ticketing_application.Repository.UserRepository;
 import com.example.online_movie_ticketing_application.ResponseDto.TicketDetailsResponseDto;
-import com.example.online_movie_ticketing_application.Services.FetchAuthenticatedUserDetails;
 import com.example.online_movie_ticketing_application.Services.TicketService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

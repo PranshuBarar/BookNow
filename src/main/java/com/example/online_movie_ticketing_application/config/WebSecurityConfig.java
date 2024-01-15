@@ -30,7 +30,9 @@ public class WebSecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((requests) -> requests.requestMatchers("/api/auth/login/user","/api/auth/signup/user","/swagger-ui/**","/api-docs/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests((requests) -> requests.requestMatchers("/api/auth/login/user","/api/auth/signup/user",
+                        "/api/auth/login/admin","/api/auth/signup/admin","/swagger-ui/**","/api-docs/**")
+                        .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .exceptionHandling(exceptionHandling -> {
                     exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint);
