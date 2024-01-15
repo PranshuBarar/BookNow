@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Services;
+package com.example.online_movie_ticketing_application.Services.Impl;
 
 import com.example.online_movie_ticketing_application.config.CustomUserDetails;
 import org.springframework.security.core.Authentication;
