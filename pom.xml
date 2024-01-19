@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>BMS</groupId>
 	<artifactId>book_my_show</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+<!--	<version>0.0.1-SNAPSHOT</version>-->
 	<name>book_my_show</name>
 	<description>Book my show application</description>
 	<properties>

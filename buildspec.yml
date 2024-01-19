@@ -23,6 +23,3 @@ phases:
 artifacts:
   files: '**/*'
   discard-paths: yes
-  s3:
-    bucket: booknowproject
-    path: booknowproject/artifacts
