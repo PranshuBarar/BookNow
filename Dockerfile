@@ -11,7 +11,7 @@ RUN ./mvnw clean package -DskipTests
 # Stage 2: Create a minimal Docker image with the JAR
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=builder /app/target/book_my_show-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=builder /app/target/book_my_show-3.0.1.jar ./app.jar
 CMD ["java", "-jar", "app.jar", "-Dspring-boot.run.profiles=mysql"]
 
 
