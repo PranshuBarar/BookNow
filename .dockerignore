@@ -1,0 +1,29 @@
+# Ignore Maven build artifacts
+target/
+
+# Ignore IDE-specific files
+.idea/
+*.iml
+
+# Ignore system-specific files
+.DS_Store
+
+# Ignore log files
+logs/
+
+# Ignore temporary files
+*.tmp
+
+# Ignore test files
+test/
+
+# Ignore version control system files
+.git/
+.gitignore
+
+# Ignore Docker-specific files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Add other project-specific files or directories to ignore
