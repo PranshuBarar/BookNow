@@ -23,8 +23,7 @@ test/
 
 # Ignore Docker-specific files
 Dockerfile
-#docker-compose.yml
-buildspec.yml
+docker-compose.yml
 .dockerignore
 
 # Add other project-specific files or directories to ignore
