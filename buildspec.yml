@@ -21,5 +21,5 @@ phases:
       - docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/booknow:latest
 
 artifacts:
-  files: '**/*'
+  files: appspec.yml
   discard-paths: yes
