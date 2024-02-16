@@ -57,6 +57,8 @@ This is a Spring Boot application with around 26 APIs for performing all the CRU
 # Design of the Application
 ![img.png](img.png)
 
+<iframe src="https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio.html" width="100%" height="300px"></iframe>
+
 
 
 # Database Schema (EER Diagram)
