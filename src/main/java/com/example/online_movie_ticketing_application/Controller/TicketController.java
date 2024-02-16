@@ -1,4 +1,4 @@
-package com.example.online_movie_ticketing_application.Controller.UserAndAdminAPIs;
+package com.example.online_movie_ticketing_application.Controller;
 
 import com.example.online_movie_ticketing_application.Entities.TicketEntity;
 import com.example.online_movie_ticketing_application.EntryDtos.TicketEntryDto;
