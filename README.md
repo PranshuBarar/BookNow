@@ -1,6 +1,6 @@
 # BOOKNOW - An online movie ticketing application 
 ## This repository contains the backend code for the BOOKNOW - An online movie ticketing application
-This is a Spring Boot application with around 26 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
+This is a Spring Boot application with around 22 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 
 ## Features of this Application
 **Secure Endpoints:** <br> *Utilized Spring Security for robust endpoint security, protecting against unauthorized access.*
