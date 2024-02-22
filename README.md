@@ -86,7 +86,7 @@ _________________________________________________
 ![img.png](img.png)
 
 _________________________________________________
-# Flow Process of Authentication and Authorization Mechanism
+# Flow Process of JWT based Authentication and Authorization Mechanism using Spring Security
 _________________________________________________
 ![img_1.png](img_1.png)
 
