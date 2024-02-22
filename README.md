@@ -1,12 +1,28 @@
 # BOOKNOW - An online movie ticketing application 
 ## This repository contains the backend code for the BOOKNOW - An online movie ticketing application
+This is a Spring Boot application with around 26 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
 
 ## Features of this Application
-**Secure Endpoints:** <br> *Utilize Spring Security for robust endpoint security, protecting against unauthorized access.*
+**Secure Endpoints:** <br> *Utilized Spring Security for robust endpoint security, protecting against unauthorized access.*
 
-**JWT Authentication:** <br> *Implement JWT-based authentication management for secure user access.*
+**JWT Authentication:** <br> *Implemented JWT-based authentication management for secure user access.*
+
+## Table of Contents
+- [Instructions for Running this Project on your Computer](#Instructions-for-Running-this-Project-on-your-Computer)
+  * [Prerequisites](#Prerequisites)
+  * [How to Run](#how-to-run)
+  * [Additional Notes](#additional-notes)
+- [Design of the Application](#design-of-the-application)
+- [Flow Process of Authentication and Authorization Mechanism](#Flow-Process-of-Authentication-and-Authorization-Mechanism)
+- [Database Schema (EER Diagram)](#Database-Schema-(EER-Diagram))
+- [API Description](#API-Description)
+- [Steps to perform operations](#Steps-to-perform-operations)
+- [Tech Stack](#Tech-Stack)
+- [Conclusion](#Conclusion)
+- [Contact](#Contact)
+
 _________________________________________________
-## Instructions for Running this Project on your Computer
+# Instructions for Running this Project on your Computer
 _________________________________________________
 
 ## Prerequisites
@@ -48,28 +64,34 @@ Make sure you have the following tools installed on your machine:
 
 - If you encounter any issues, ensure that ports 8080 and 3306 are available on your machine.
 
-- Customize your application configuration in the `application.yml` files if you require doing so.
+- Customize your application configuration in the `application.properties` files if you require doing so.
 
 - You are most welcome to explore other available endpoints and functionalities as documented in the project.
 
 
-This is a Spring Boot application with around 26 APIs for performing all the CRUD operations related to ticketing of a movie show in a theater.
+_________________________________________________
 # Design of the Application
+_________________________________________________
+
 ![img.png](img.png)
 
-
-
+_________________________________________________
 # Flow Process of Authentication and Authorization Mechanism
+_________________________________________________
 ![img_1.png](img_1.png)
-You can have a dynamic look of this flow process by clicking here: 
 
+You can have a dynamic look of this flow process by clicking here:
 [https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio+-+Page-1.html](https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio+-+Page-1.html)
 
-
+_________________________________________________
 # Database Schema (EER Diagram)
+_________________________________________________
 ![image](https://user-images.githubusercontent.com/117909106/225558558-376e21dd-8f01-4af5-8f58-b8d4bba940b8.png)
 
-# Description
+_________________________________________________
+# API Description
+_________________________________________________
+
 This Movie Booking application can do the following tasks : 
 * USERS  
   * Users can register themselves on the application.
@@ -95,9 +117,12 @@ This Movie Booking application can do the following tasks :
   * Users can book a ticket for the movie. (User can book multiple seats on the same ticket)
   * Users can cancel the ticket before the showdate.
   * Get details of a ticket using ticketId
-  
-# Steps to perform operations 
-# Users : 
+
+_________________________________________________
+# Steps to perform operations
+_________________________________________________
+
+## USERS : 
 ## => Registration of a User : 
 ![image](https://user-images.githubusercontent.com/117909106/224682460-66542e35-bb76-4dd1-9862-07c9f57da626.png)
 
@@ -111,7 +136,7 @@ This Movie Booking application can do the following tasks :
 ![image](https://user-images.githubusercontent.com/117909106/225540733-b24bfc4d-104b-4afc-b71c-cec9d0273a1a.png)
 ![image](https://user-images.githubusercontent.com/117909106/225540876-fb5e6b15-cede-4f46-b465-f1f92eb73db9.png)
 
-# Movies : 
+# MOVIES : 
 ## => Adding a movie in the database : 
 ![image](https://user-images.githubusercontent.com/117909106/225545134-9b239479-1f70-4496-a038-dcfcd9a94a05.png)
 
@@ -174,9 +199,14 @@ This project uses the following tech stack:
 * [MySQL](https://www.mysql.com/) (For Database)
 * [OpenAPI (for API Documentation)](https://www.openapis.org/)
 * [Docker for Containerization](https://www.docker.com/)
+_________________________________________________
+# Conclusion
+_________________________________________________
+This ONLINE-MOVIE-TICKETING-APPLCIATION provides a strong backend infrastructre to do CRUD operations and managing the database. I always keep updating the features of this application as my learning process. Right Now I am working on having a basic login/signup page with Oauth2.0 support for social login and signup. I am trying to build a basic frontend setup for login/signup page using React.js
 
-## Contact
+_________________________________________________
+# Contact
+_________________________________________________
 For questions, feedback, or support, please contact the project owner at pranshubarar1851996@gmail.com.
 
-## Conclusion
-This ONLINE-MOVIE-TICKETING-APPLCIATION provides a strong backend infrastructre to do CRUD operations and managing the database.
+
