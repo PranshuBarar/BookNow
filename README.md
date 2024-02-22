@@ -23,7 +23,7 @@ _________________________________________________
   * [How to Run](#how-to-run)
   * [Additional Notes](#additional-notes)
 - [Design of the Application](#design-of-the-application)
-- [Flow Process of Authentication and Authorization Mechanism](#Flow-Process-of-Authentication-and-Authorization-Mechanism)
+- [Flow Process of Authentication and Authorization Mechanism](#Flow-Process-of-JWT-based-Authentication-and-Authorization-Mechanism-using-Spring-Security)
 - [Database Schema (EER Diagram)](#Database-Schema-eer-diagram))
 - [CI/CD Setup Diagram on AWS](#CICD-Setup-Diagram-on-AWS)
 - [API Description](#API-Description)
