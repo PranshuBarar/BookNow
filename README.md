@@ -166,7 +166,7 @@ This project uses the following tech stack:
 _________________________________________________
 # Conclusion
 _________________________________________________
-This ONLINE-MOVIE-TICKETING-APPLCIATION provides a strong backend infrastructre to do CRUD operations and managing the database. I always keep updating the features of this application as my learning process. Right Now I am working on having a basic login/signup page with Oauth2.0 support for social login and signup. I am trying to build a basic frontend setup for login/signup page using React.js.
+This ONLINE-MOVIE-TICKETING-APPLCIATION provides a strong backend infrastructure to do CRUD operations and managing the database. I always keep updating the features of this application as my learning process. Right Now I am working on having a basic login/signup page with Oauth2.0 support for social login and signup. I am trying to build a basic frontend setup for login/signup page using React.js.
 
 _________________________________________________
 # Contact
