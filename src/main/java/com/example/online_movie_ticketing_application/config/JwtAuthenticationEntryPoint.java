@@ -36,7 +36,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Ac
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType("application/json");
-
         objectMapper.writeValue(response.getWriter(), Map.of("error", "Access Denied", "message", "You are not authorized. This is only for admins."));
     }
 }

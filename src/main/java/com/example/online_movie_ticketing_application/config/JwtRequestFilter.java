@@ -18,7 +18,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUserDetailsServiceImpl jwtUserDetailsService;
+    private JwtUserDetailsServiceImpl jwtUserDetailsServiceImpl;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -45,15 +45,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         //After getting the token we will validate it
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            CustomUserDetails customUserDetails = (CustomUserDetails) this.jwtUserDetailsService.loadUserByUsername(userEmail);
+            CustomUserDetails customUserDetails = this.jwtUserDetailsServiceImpl.loadUserByUsername(userEmail);
 
             // if token is valid configure Spring Security to manually set
             // authentication
             if(jwtTokenUtil.validateToken(jwtToken,customUserDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
-
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }

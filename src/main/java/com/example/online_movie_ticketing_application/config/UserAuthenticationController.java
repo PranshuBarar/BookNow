@@ -11,13 +11,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @Getter
 @Setter
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+//@CrossOrigin
 public class UserAuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -33,7 +34,11 @@ public class UserAuthenticationController {
     public ResponseEntity<?> createAuthenticationTokenForUser(@RequestBody JwtRequest jwtRequest) throws Exception {
         String userEmail = jwtRequest.getUserEmail();
         String password = jwtRequest.getPassword();
-        authenticate(userEmail, password);
+        try{
+            authenticate(userEmail,password);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Wrong username or password", HttpStatus.UNAUTHORIZED);
+        }
         //If no exception thrown after running authenticate(), it means request is authenticated
 
         final CustomUserDetails customUserDetails = jwtUserDetailsServiceImpl.loadUserByUsername(userEmail);
@@ -46,7 +51,11 @@ public class UserAuthenticationController {
     public ResponseEntity<?> createAuthenticationTokenForAdmin(@RequestBody JwtRequest jwtRequest) throws Exception {
         String userEmail = jwtRequest.getUserEmail();
         String password = jwtRequest.getPassword();
-        authenticate(userEmail,password);
+        try{
+            authenticate(userEmail,password);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Wrong username or password", HttpStatus.UNAUTHORIZED);
+        }
         //If no exception thrown after running authenticate(), it means request is authenticated
 
         final CustomUserDetails customUserDetails = jwtUserDetailsServiceImpl.loadUserByUsername(userEmail);
@@ -81,7 +90,7 @@ public class UserAuthenticationController {
     @PostMapping("/auth/signup/admin")
     public ResponseEntity<?> saveAdmin(@RequestBody UserRegisterEntryDto userRegisterEntryDto) throws Exception {
         try{
-            String response = jwtUserDetailsServiceImpl.saveUser(userRegisterEntryDto);
+            String response = jwtUserDetailsServiceImpl.saveAdmin(userRegisterEntryDto);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (Exception e){
             return new ResponseEntity<>("User already Exists", HttpStatus.BAD_REQUEST);

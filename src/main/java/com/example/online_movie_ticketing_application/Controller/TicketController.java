@@ -21,7 +21,7 @@ public class TicketController {
     @Autowired
     TicketServiceImpl ticketServiceImpl;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     public ResponseEntity<?> getTicketsBookedByUser(@RequestParam String userEmail){
         List<TicketEntity> ticketEntityList = ticketServiceImpl.getTicketsBookedByUser(userEmail);
         if(ticketEntityList.isEmpty()){
@@ -31,6 +31,7 @@ public class TicketController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/booking_ticket") //http://localhost:8080/tickets/booking_ticket
     public ResponseEntity<String> bookTicket(@RequestBody TicketEntryDto ticketEntryDto) throws Exception {
         String response = ticketServiceImpl.bookTicket(ticketEntryDto);
@@ -48,6 +49,7 @@ public class TicketController {
     */
 
     //Exception handling is required here. If no ticket with this ticket id it should throw some message
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get-ticket-details") //http://localhost:8080/tickets/get-ticket-details?ticketId=<id here>
     public ResponseEntity<?> getDetails(@RequestParam("ticketUUID") String ticketUUID){
         try{
@@ -60,6 +62,7 @@ public class TicketController {
     }
 
     //Exception handling is requried here
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/cancel_ticket") //http://localhost:8080/tickets/cancel_ticket?ticketId=<id here>
     public ResponseEntity<String> cancelTicket(@RequestParam("ticketId") int ticketId){
         String response = ticketServiceImpl.cancelTicket(ticketId);

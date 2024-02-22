@@ -22,7 +22,7 @@ public class ShowController {
     @Autowired
     ShowServiceImpl showServiceImpl;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @PostMapping("/add") //http://localhost:8080/admin/show/add
     public ResponseEntity<String> addShow(@RequestBody ShowEntryDto showEntryDto) {
         try{
@@ -46,7 +46,8 @@ public class ShowController {
         }
     */
 
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @DeleteMapping("/cancel") //http://localhost:8080/show/cancel?showId=<id here>
     public ResponseEntity<?> cancelShow(@RequestBody ShowDateAndTimeEntryDto showDateAndTimeEntryDto){
         try{
@@ -63,6 +64,7 @@ public class ShowController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/available-seats")
     public ResponseEntity<?> getAvailableSeats(@RequestBody ShowDateAndTimeEntryDto showDateAndTimeEntryDto){
         try{

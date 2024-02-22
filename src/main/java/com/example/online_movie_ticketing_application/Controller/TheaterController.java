@@ -18,7 +18,7 @@ public class TheaterController {
     @Autowired
     TheaterServiceImpl theaterServiceImpl;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @PostMapping("/add") //http://localhost:8080/theater/add
     public ResponseEntity<String> addTheater(@RequestBody TheaterEntryDto theaterEntryDto){
         try {
@@ -39,6 +39,8 @@ public class TheaterController {
         }
     */
 
+
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/remove") //http://localhost:8080/theater/remove?theaterId=<id here>
     public ResponseEntity<?> removeTheater(@RequestParam("theaterName") String theaterName) throws Exception {
         try{
@@ -50,6 +52,7 @@ public class TheaterController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/theaters-with-unique-locations") //http://localhost:8080/theater/theaters-with-unique-locations
     public ResponseEntity<?> theatersWithUniqueLocations(){
         try{

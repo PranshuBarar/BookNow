@@ -54,5 +54,4 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         userRegisterEntryDto.setRole(Role.ADMIN);
         return UserServiceImpl.registerUser(userRegisterEntryDto);
     }
-
 }

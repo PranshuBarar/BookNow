@@ -23,6 +23,7 @@ public class UserController {
     @Autowired
     UserServiceImpl userServiceImpl;
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/remove") //http://localhost:8080/users/remove
     public ResponseEntity<String> removeUser(){
         try{
@@ -36,6 +37,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/all-tickets") //http://localhost:8080/users/all-tickets
     public ResponseEntity<?> allTicketsOfCurrentUser(){
         //This will return all tickets booked by user till now...and this includes even cancelled tickets also
@@ -48,6 +50,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @PutMapping("/update-address") //http://localhost:8080/users/update-address
     public ResponseEntity<?> updateUserAddress(@RequestBody String address){
         try{
@@ -59,7 +62,7 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @GetMapping("/get-all-users") //http://localhost:8080/admin/users/get-all-users
     public ResponseEntity<?> getAllUsers(){
         try{

@@ -57,8 +57,13 @@ This is a Spring Boot application with around 26 APIs for performing all the CRU
 # Design of the Application
 ![img.png](img.png)
 
-<iframe src="https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio.html" width="100%" height="300px"></iframe>
 
+
+# Flow Process of Authentication and Authorization Mechanism
+![img_1.png](img_1.png)
+You can have a dynamic look of this flow process by clicking here: 
+
+[https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio+-+Page-1.html](https://jwtworking.s3.ap-south-1.amazonaws.com/JWTDesignUpdated.drawio+-+Page-1.html)
 
 
 # Database Schema (EER Diagram)

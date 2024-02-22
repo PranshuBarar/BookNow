@@ -23,7 +23,7 @@ public class JwtTokenUtil implements Serializable {
 
 
     //================================================================
-    //Secret key is must for retrieving any information from then token (Secret key will be provided via application.properties file)
+    //Secret key is must for retrieving any information from the token (Secret key will be provided via application.properties file)
     private Claims getAllClaimsFromToken(String token){
         return Jwts
                 //calling parser() method for parsing the token to get all the claims
@@ -37,7 +37,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //This is a generic method for getting all the claims from the given token
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         //Retrieved claims will be constant throughout the process hence, they will be declared final
         final Claims claims = getAllClaimsFromToken(token);
         //Calling apply() method of 'Function' interface
@@ -54,7 +54,7 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
     //Extracting expiration date from jwt token
-    public Date getExpirationDateFromToken(String token){
+    private Date getExpirationDateFromToken(String token){
         return getClaimFromToken(token, claims -> claims.getExpiration());
     }
     //================================================================

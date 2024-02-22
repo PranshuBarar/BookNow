@@ -31,6 +31,7 @@ public class MovieController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get-show-time") //http://localhost:8080/movies/get-show-time?movie-name=<name_here>&theater-name=<name_here>
     public ResponseEntity<?> getShowTime(@RequestParam("movie-name") String movieName,
                                                            @RequestParam("theater-name") String theaterName){
@@ -42,6 +43,7 @@ public class MovieController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/movie-with-max-shows") //http://localhost:8080/movies/movie-with-max-shows
     public ResponseEntity<?> movieWithMaxShows(){
         try{
@@ -53,6 +55,7 @@ public class MovieController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/movie-with-max-collection") //http://localhost:8080/movies/movie-with-max-collection
     public ResponseEntity<?> movieWithMaxCollection() {
         try{
@@ -63,6 +66,7 @@ public class MovieController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/all-movies-total-collection") //http://localhost:8080/movies/all-movies-total-collection
     public ResponseEntity<?> allMoviesTotalCollection() {
         try{
@@ -74,6 +78,7 @@ public class MovieController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/collection/{movie}") //http://localhost:8080/movies/collection/<movie>
     public ResponseEntity<?> totalCollectionOfMovie(@PathVariable("movie") String movieName){
         try{
@@ -86,6 +91,7 @@ public class MovieController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/allmovies") //http://localhost:8080/movies/allmovies
     public ResponseEntity<?> getAllMovies(){
         try{
@@ -97,7 +103,7 @@ public class MovieController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @PostMapping("/add") //http://localhost:8080/movies/add
     public ResponseEntity<?> addMovie(@RequestBody MovieEntryDto movieEntryDto){
         try{
@@ -119,7 +125,7 @@ public class MovieController {
         }
     */
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated() and hasRole('ADMIN')")
     @DeleteMapping("/remove") //http://localhost:8080/movies/remove?movieName=<name_here>
     public ResponseEntity<String> removeMovie(@RequestParam("movieName") String movieName) {
         try{
