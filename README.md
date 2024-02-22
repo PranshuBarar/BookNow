@@ -27,7 +27,6 @@ _________________________________________________
 - [Database Schema (EER Diagram)](#Database-Schema-eer-diagram))
 - [CI/CD Setup Diagram on AWS](#CICD-Setup-Diagram-on-AWS)
 - [API Description](#API-Description)
-- [Steps to perform operations](#Steps-to-perform-operations)
 - [Tech Stack](#Tech-Stack)
 - [Conclusion](#Conclusion)
 - [Contact](#Contact)
