@@ -7,14 +7,25 @@ This is a Spring Boot application with around 26 APIs for performing all the CRU
 
 **JWT Authentication:** <br> *Implemented JWT-based authentication management for secure user access.*
 
-## Table of Contents
+**Containerization of the Application:** <br> *Containerized this application for seamless deployment anywhere, be it cloud or your local server etc.*
+
+**CI/CD on AWS:** <br> *Utilized AWS CodePipeline (CodeCommit, CodeBuild and CodeDeploy) for deploying this backend application on
+AWS*
+
+
+
+_________________________________________________
+# Table of Contents
+_________________________________________________
+
 - [Instructions for Running this Project on your Computer](#Instructions-for-Running-this-Project-on-your-Computer)
   * [Prerequisites](#Prerequisites)
   * [How to Run](#how-to-run)
   * [Additional Notes](#additional-notes)
 - [Design of the Application](#design-of-the-application)
 - [Flow Process of Authentication and Authorization Mechanism](#Flow-Process-of-Authentication-and-Authorization-Mechanism)
-- [Database Schema (EER Diagram)](#Database-Schema-(EER-Diagram))
+- [Database Schema (EER Diagram)](#Database-Schema-eer-diagram))
+- [CI/CD Setup Diagram on AWS](#CICD-Setup-Diagram-on-AWS)
 - [API Description](#API-Description)
 - [Steps to perform operations](#Steps-to-perform-operations)
 - [Tech Stack](#Tech-Stack)
@@ -72,7 +83,6 @@ Make sure you have the following tools installed on your machine:
 _________________________________________________
 # Design of the Application
 _________________________________________________
-
 ![img.png](img.png)
 
 _________________________________________________
@@ -87,6 +97,11 @@ _________________________________________________
 # Database Schema (EER Diagram)
 _________________________________________________
 ![image](https://user-images.githubusercontent.com/117909106/225558558-376e21dd-8f01-4af5-8f58-b8d4bba940b8.png)
+
+_________________________________________________
+# CI/CD Setup Diagram on AWS
+_________________________________________________
+![img_3.png](img_3.png)
 
 _________________________________________________
 # API Description
